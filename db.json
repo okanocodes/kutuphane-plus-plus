@@ -202,6 +202,13 @@
       "userId": 3,
       "bookId": 5,
       "status": "canceled"
+    },
+    {
+      "userId": 5,
+      "bookId": 1,
+      "status": "approved",
+      "date": "2026-07-03",
+      "id": "2qibs_a8DUI"
     }
   ],
   "borrowedBooks": [
