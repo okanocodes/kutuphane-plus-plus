@@ -1,81 +1,93 @@
 {
   "roles": [
-    "student",
-    "academic",
-    "librarian",
-    "admin"
+    {
+      "id": "1",
+      "name": "student"
+    },
+    {
+      "id": "2",
+      "name": "academic"
+    },
+    {
+      "id": "3",
+      "name": "librarian"
+    },
+    {
+      "id": "4",
+      "name": "admin"
+    }
   ],
   "authors": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Sabahattin Ali"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Yaşar Kemal"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Oğuz Atay"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Orhan Pamuk"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Ahmet Hamdi Tanpınar"
     }
   ],
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Roman"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Klasik"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Edebiyat"
     }
   ],
   "publishers": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Yapı Kredi Yayınları"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "İletişim Yayınları"
     }
   ],
   "branches": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Merkez Kütüphane"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Mühendislik Kütüphanesi"
     }
   ],
   "shelves": [
     {
-      "id": 1,
+      "id": "1",
       "code": "A-01",
       "branchId": 1
     },
     {
-      "id": 2,
+      "id": "2",
       "code": "B-02",
       "branchId": 1
     }
   ],
   "books": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Kürk Mantolu Madonna",
       "authorId": 1,
       "categoryId": 2,
@@ -89,7 +101,7 @@
       "rating": 4.9
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "İnce Memed",
       "authorId": 2,
       "categoryId": 1,
@@ -103,8 +115,8 @@
       "rating": 4.8
     },
     {
-      "id": 3,
-      "title": "Tutunamayanlar",
+      "id": "3",
+      "title": "Tutunamayanlar title düzenlendi",
       "authorId": 3,
       "categoryId": 3,
       "publisherId": 2,
@@ -117,7 +129,7 @@
       "rating": 5
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Benim Adım Kırmızı",
       "authorId": 4,
       "categoryId": 3,
@@ -131,7 +143,7 @@
       "rating": 4.7
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Saatleri Ayarlama Enstitüsü",
       "authorId": 5,
       "categoryId": 2,
@@ -147,46 +159,46 @@
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Okan Şahin",
       "role": "student"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Ayşenur Yılmaz",
       "role": "student"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Eren Demir",
       "role": "academic"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Sudenaz Kaya",
       "role": "librarian"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Admin",
       "role": "admin"
     }
   ],
   "reservations": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "bookId": 3,
       "status": "pending"
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": 2,
       "bookId": 1,
       "status": "approved"
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": 3,
       "bookId": 5,
       "status": "canceled"
@@ -194,19 +206,19 @@
   ],
   "borrowedBooks": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 2,
       "bookId": 2,
       "status": "active"
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": 3,
       "bookId": 1,
       "status": "returned"
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": 1,
       "bookId": 4,
       "status": "overdue"
@@ -214,19 +226,29 @@
   ],
   "favorites": [
     {
-      "id": 1,
-      "userId": 1,
-      "bookId": 1
-    },
-    {
-      "id": 2,
+      "id": "2",
       "userId": 1,
       "bookId": 3
+    },
+    {
+      "userId": "5",
+      "bookId": "3",
+      "id": "me7q8Zft0Xc"
+    },
+    {
+      "userId": "5",
+      "bookId": "1",
+      "id": "rqnU6StXm14"
+    },
+    {
+      "userId": 5,
+      "bookId": 1,
+      "id": "JHR0rqkqXjM"
     }
   ],
   "reviews": [
     {
-      "id": 1,
+      "id": "1",
       "bookId": 1,
       "userId": 2,
       "rating": 5,
@@ -235,7 +257,7 @@
   ],
   "notifications": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "type": "rezervasyon",
       "title": "Rezervasyon Onaylandı",
@@ -244,54 +266,54 @@
   ],
   "events": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Kitap Kulübü",
       "capacity": 30
     }
   ],
   "studyDesks": [
     {
-      "id": 1,
+      "id": "1",
       "status": "available"
     },
     {
-      "id": 2,
+      "id": "2",
       "status": "occupied"
     },
     {
-      "id": 3,
+      "id": "3",
       "status": "reserved"
     }
   ],
   "meetingRooms": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Oda A",
       "capacity": 6
     }
   ],
   "announcements": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Yaz Dönemi Çalışma Saatleri"
     }
   ],
   "blogs": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Yaz İçin Kitap Önerileri"
     }
   ],
   "faqs": [
     {
-      "id": 1,
+      "id": "1",
       "question": "Kitap nasıl ödünç alınır?",
       "answer": "Üye girişi yaparak."
     }
   ],
   "penalties": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "amount": 25
     }
@@ -299,5 +321,6 @@
   "settings": {
     "maxLoanDays": 15,
     "maxBooks": 5
-  }
+  },
+  "$schema": "./node_modules/json-server/schema.json"
 }

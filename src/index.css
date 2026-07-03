@@ -194,3 +194,33 @@
   --text-headline-h1--line-height: 1.2;
   --text-headline-h1--font-weight: 700;
 }
+
+/* ==========================================
+   AG Grid overrides for Midnight & Ember
+   ========================================== */
+.ag-theme-custom {
+  --ag-background-color: #1f1f24 !important;
+  --ag-header-background-color: #292a2f !important;
+  --ag-border-color: #4a454d !important;
+  --ag-row-hover-color: rgba(91, 33, 182, 0.1) !important;
+  --ag-foreground-color: #e3e1e8 !important;
+  --ag-header-foreground-color: #d3beeb !important;
+  --ag-selected-row-background-color: rgba(255, 93, 58, 0.15) !important;
+  --ag-font-family: "Inter", sans-serif !important;
+  --ag-font-size: 14px !important;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid #4a454d !important;
+}
+
+.ag-theme-custom .ag-header-cell-label {
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  font-size: 12px !important;
+  letter-spacing: 0.05em !important;
+}
+
+.ag-theme-custom .ag-row {
+  border-bottom: 1px solid #4a454d !important;
+}
+

@@ -1,36 +1,84 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import useAuth from '../hooks/useAuth';
+import { updateUser } from '../store/userSlice';
+import { addToast } from '../store/uiSlice';
 
-const ProfilePage = () => {
-    const navigate = useNavigate();
-    return (
-        <div className="flex max-w-7xl mx-auto px-margin-desktop min-h-[calc(100vh-80px)]">
-            <aside className="hidden lg:flex flex-col w-64 border-r border-outline-variant py-xl gap-md shrink-0">
-                <div className="px-md mb-lg">
-                    <h2 className="font-headline-h3 text-on-surface font-bold">Panelim</h2>
-                    <p className="font-label-sm text-on-surface-variant">Hoş geldin, Arda.</p>
-                </div>
-                <nav className="flex flex-col gap-xs">
-                    <a className="flex items-center gap-md text-ember-orange border-l-4 border-ember-orange px-md py-sm font-label-sm" href="#"><span className="material-symbols-outlined">dashboard</span> Panel</a>
-                    <a className="flex items-center gap-md text-on-surface-variant px-md py-sm font-label-sm hover:text-on-surface" href="#"><span className="material-symbols-outlined">menu_book</span> Kitaplarım</a>
-                </nav>
-                <div className="mt-auto px-md">
-                    <button onClick={() => navigate('/')} className="w-full py-3 px-4 bg-ember-orange text-white rounded-xl glow-accent flex items-center justify-center gap-2">Çıkış Yap</button>
-                </div>
-            </aside>
-            <main className="flex-1 py-xl lg:pl-xl">
-                <section className="relative w-full rounded-xxl overflow-hidden mb-xl p-xl glass-card">
-                    <h1 className="font-headline-h1 text-on-surface mb-2">Merhaba, Arda!</h1>
-                    <p className="text-body-lg text-on-surface-variant">Okuma Puanın: <span className="text-ember-orange font-bold">2,450</span></p>
-                </section>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
-                    <div className="glass-card p-xl rounded-xxl"><p className="text-4xl font-bold">42</p><p>Okunan Kitaplar</p></div>
-                    <div className="glass-card p-xl rounded-xxl"><p className="text-4xl font-bold">3</p><p>Aktif Ödünç</p></div>
-                    <div className="glass-card p-xl rounded-xxl"><p className="text-4xl font-bold">5</p><p>Rezervasyonlar</p></div>
-                </div>
-            </main>
-        </div>
-    );
+export const ProfilePage = () => {
+  const dispatch = useDispatch();
+  const { user } = useAuth();
+  
+  const [name, setName] = useState(user?.name || '');
+  const [loading, setLoading] = useState(false);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      dispatch(addToast({ message: 'Lütfen geçerli bir isim girin.', type: 'warning' }));
+      return;
+    }
+
+    setLoading(true);
+    const resultAction = await dispatch(updateUser({ id: user.id, userData: { name } }));
+    if (updateUser.fulfilled.match(resultAction)) {
+      dispatch(addToast({ message: 'Profil güncellendi.', type: 'success' }));
+      
+      // Update local storage representation as well
+      const savedUser = JSON.parse(localStorage.getItem('auth_user') || '{}');
+      savedUser.name = name;
+      localStorage.setItem('auth_user', JSON.stringify(savedUser));
+    } else {
+      dispatch(addToast({ message: 'Güncelleme başarısız.', type: 'error' }));
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="space-y-lg max-w-2xl">
+      <div className="space-y-xs">
+        <h1 className="font-display-lg text-primary text-3xl font-bold">Profil Ayarları</h1>
+        <p className="font-body-md text-on-surface-variant">Hesap bilgilerinizi görüntüleyebilir ve güncelleyebilirsiniz.</p>
+      </div>
+
+      <div className="glass-card p-lg rounded-xl border border-outline-variant shadow-glow-accent">
+        <form onSubmit={handleUpdate} className="space-y-md">
+          <div className="grid grid-cols-1 gap-md">
+            <div>
+              <label className="block text-sm font-medium text-on-surface-variant mb-1">Kullanıcı Adı</label>
+              <input
+                type="text"
+                className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none focus:ring-vivid-purple focus:border-vivid-purple sm:text-sm"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="İsim Soyisim"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-on-surface-variant mb-1">Rol</label>
+              <input
+                type="text"
+                className="w-full px-3 py-2 border border-outline bg-surface-container/50 text-on-surface-variant rounded-lg cursor-not-allowed sm:text-sm font-metadata-mono capitalize"
+                value={user?.role || ''}
+                disabled
+              />
+              <p className="text-xs text-on-surface-variant/75 mt-1">Güvenlik gereği üyelik rolünüz değiştirilemez.</p>
+            </div>
+          </div>
+
+          <div className="pt-sm">
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-lg py-2 bg-ember-orange text-white text-sm font-bold rounded-lg hover:opacity-90 active:scale-95 transition-all"
+            >
+              {loading ? 'Güncelleniyor...' : 'Profili Kaydet'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
-
-export default ProfilePage
+export default ProfilePage;
