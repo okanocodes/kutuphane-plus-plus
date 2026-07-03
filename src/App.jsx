@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import StudyDeskPage from './pages/StudyDeskPage';
+import MeetingRoomsPage from './pages/MeetingRoomsPage';
+import EventsPage from './pages/EventsPage';
+import NotificationsPage from './pages/NotificationsPage';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
@@ -83,9 +87,13 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/reservations" element={<ReservationsPage />} />
+          <Route path="/study-desks" element={<StudyDeskPage />} />
+          <Route path="/meeting-rooms" element={<MeetingRoomsPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/borrowed" element={<BorrowedBooksPage />} />
-          
+
           {/* Admin specific route */}
           <Route path="/admin" element={
             <ProtectedRoute allowedRoles={['admin', 'librarian']}>

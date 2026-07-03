@@ -31,13 +31,16 @@ export const NavBar = () => {
                     <div className="hidden md:flex items-center gap-lg">
                         <Link className={`font-label-sm text-label-sm ${location.pathname === '/' ? 'text-ember-orange font-bold border-b-2 border-ember-orange pb-1' : 'text-on-surface-variant font-medium hover:text-ember-orange'}`} to="/">Ana Sayfa</Link>
                         <Link className={`font-label-sm text-label-sm ${location.pathname === '/search' || location.pathname === '/books' ? 'text-ember-orange font-bold border-b-2 border-ember-orange pb-1' : 'text-on-surface-variant font-medium hover:text-ember-orange'}`} to="/search">Kitap Ara</Link>
-                        <Link className="text-on-surface-variant font-medium hover:text-ember-orange transition-colors duration-200 font-label-sm text-label-sm" to="#">Etkinlikler</Link>
+                        <Link className="text-on-surface-variant font-medium hover:text-ember-orange transition-colors duration-200 font-label-sm text-label-sm" to="/events">Etkinlikler</Link>
                     </div>
                 </div>
                 <div className="flex items-center gap-md">
                     <div className="flex items-center gap-sm">
                         {isAuthenticated && (
-                            <button className="p-2 rounded-full hover:bg-surface-container-highest transition-all scale-95 active:opacity-80 relative">
+                            <button
+                                onClick={() => navigate('/notifications')}
+                                className="p-2 rounded-full hover:bg-surface-container-highest transition-all scale-95 active:opacity-80 relative"
+                            >
                                 <span className="material-symbols-outlined text-on-surface-variant">notifications</span>
                                 {unreadNotifications.length > 0 && (
                                     <span className="absolute top-1 right-1 w-4 h-4 bg-ember-orange text-white rounded-full text-[10px] flex items-center justify-center font-bold">
@@ -53,16 +56,16 @@ export const NavBar = () => {
                         )}
                     </div>
                     {isAuthenticated ? (
-                        <button 
-                            onClick={() => navigate('/dashboard')} 
+                        <button
+                            onClick={() => navigate('/dashboard')}
                             className="bg-vivid-purple text-white font-bold px-lg py-sm rounded-lg hover:opacity-90 transition-all scale-95 active:opacity-80 font-label-sm text-label-sm flex items-center gap-2"
                         >
                             <span className="material-symbols-outlined text-sm">account_circle</span>
                             <span>{user.name}</span>
                         </button>
                     ) : (
-                        <button 
-                            onClick={() => navigate('/login')} 
+                        <button
+                            onClick={() => navigate('/login')}
                             className="bg-ember-orange text-white font-bold px-lg py-sm rounded-lg hover:opacity-90 transition-all scale-95 active:opacity-80 font-label-sm text-label-sm"
                         >
                             Giriş Yap
