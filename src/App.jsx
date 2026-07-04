@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import StudyDeskPage from './pages/StudyDeskPage';
+import useAuth from './hooks/useAuth';
 import MeetingRoomsPage from './pages/MeetingRoomsPage';
 import EventsPage from './pages/EventsPage';
 import NotificationsPage from './pages/NotificationsPage';
@@ -38,8 +39,27 @@ import ToastContainer from './components/Toast';
 
 const classes = ['bg-surface', 'text-on-surface', 'font-body-md', 'overflow-x-hidden'];
 
+const EventsRoute = () => {
+  const { isAuthenticated, role } = useAuth();
+
+  if (isAuthenticated && role === 'admin') {
+    return (
+      <DashboardLayout>
+        <EventsPage />
+      </DashboardLayout>
+    );
+  }
+
+  return (
+    <MainLayout>
+      <EventsPage />
+    </MainLayout>
+  );
+};
+
 function App() {
   const { theme } = useSelector((state) => state.ui);
+  const { isAuthenticated, role } = useAuth();
 
   useEffect(() => {
     document.body.classList.add(...classes);
@@ -72,6 +92,19 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
         </Route>
 
+        <Route path="/events" element={<EventsRoute />} />
+
+        {/* Admin events route with dashboard layout */}
+        {isAuthenticated && role === 'admin' || role === 'librarian' && (
+          <Route element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }>
+            <Route path="/admin/events" element={<EventsPage />} />
+          </Route>
+        )}
+
         {/* Auth Routes with AuthLayout */}
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
@@ -89,7 +122,6 @@ function App() {
           <Route path="/reservations" element={<ReservationsPage />} />
           <Route path="/study-desks" element={<StudyDeskPage />} />
           <Route path="/meeting-rooms" element={<MeetingRoomsPage />} />
-          <Route path="/events" element={<EventsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/borrowed" element={<BorrowedBooksPage />} />

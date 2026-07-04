@@ -6,7 +6,7 @@ import useAuth from '../hooks/useAuth';
 
 export const EventsPage = () => {
     const dispatch = useDispatch();
-    const { user } = useAuth();
+    const { user, isAuthenticated } = useAuth();
     const { events } = useSelector((state) => state.reservations);
 
     useEffect(() => {
@@ -14,6 +14,12 @@ export const EventsPage = () => {
     }, [dispatch]);
 
     const handleJoinEvent = async (event) => {
+        if (!isAuthenticated || !user?.id) {
+            console.log('User is not authenticated. Cannot join event.');
+            dispatch(addToast({ message: 'Etkinliğe katılmak için önce giriş yapmanız gerekir.', type: 'warning' }));
+            return;
+        }
+
         const resultAction = await dispatch(
             reserveEvent({
                 event,
@@ -98,10 +104,10 @@ export const EventsPage = () => {
                                     onClick={() => handleJoinEvent(event)}
                                     disabled={joined || full}
                                     className={`w-full py-3 px-4 rounded-xl font-bold transition-all active:scale-[0.98] ${joined
-                                            ? 'bg-success/20 text-success cursor-not-allowed'
-                                            : full
-                                                ? 'bg-error/20 text-error cursor-not-allowed'
-                                                : 'bg-ember-orange text-white hover:opacity-90 shadow-glow-accent'
+                                        ? 'bg-success/20 text-success cursor-not-allowed'
+                                        : full
+                                            ? 'bg-error/20 text-error cursor-not-allowed'
+                                            : 'bg-ember-orange text-white hover:opacity-90 shadow-glow-accent'
                                         }`}
                                 >
                                     {joined ? 'Katılım Sağlandı' : full ? 'Kontenjan Doldu' : 'Etkinliğe Katıl'}
