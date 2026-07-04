@@ -19,6 +19,10 @@ export const Sidebar = () => {
     { path: '/dashboard', label: 'Genel Bakış', icon: 'dashboard' },
     { path: '/profile', label: 'Profilim', icon: 'person' },
     { path: '/reservations', label: 'Rezervasyonlar', icon: 'bookmark' },
+    { path: '/study-desks', label: 'Çalışma Masaları', icon: 'table_restaurant' },
+    { path: '/meeting-rooms', label: 'Toplantı Odaları', icon: 'meeting_room' },
+    { path: '/events', label: 'Etkinlikler', icon: 'event' },
+    { path: '/notifications', label: 'Bildirimler', icon: 'notifications' },
     { path: '/borrowed', label: 'Ödünç Kitaplar', icon: 'library_books' },
     { path: '/favorites', label: 'Favorilerim', icon: 'favorite' },
   ];
@@ -45,10 +49,9 @@ export const Sidebar = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-md px-md py-sm rounded-md transition-all font-label-sm text-label-sm ${
-                  isActive
-                    ? 'bg-surface-container-highest text-ember-orange font-bold border-l-4 border-ember-orange'
-                    : 'text-on-surface-variant hover:text-ember-orange hover:bg-surface-container-high'
+                `flex items-center gap-md px-md py-sm rounded-md transition-all font-label-sm text-label-sm ${isActive
+                  ? 'bg-surface-container-highest text-ember-orange font-bold border-l-4 border-ember-orange'
+                  : 'text-on-surface-variant hover:text-ember-orange hover:bg-surface-container-high'
                 }`
               }
             >

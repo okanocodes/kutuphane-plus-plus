@@ -189,7 +189,7 @@
       "id": "1",
       "userId": 1,
       "bookId": 3,
-      "status": "pending"
+      "status": "approved"
     },
     {
       "id": "2",
@@ -275,7 +275,11 @@
     {
       "id": "1",
       "title": "Kitap Kulübü",
-      "capacity": 30
+      "capacity": 30,
+      "reservedSeats": 1,
+      "participants": [
+        "1"
+      ]
     }
   ],
   "studyDesks": [
@@ -296,7 +300,38 @@
     {
       "id": "1",
       "name": "Oda A",
-      "capacity": 6
+      "capacity": 6,
+      "status": "reserved",
+      "userId": "1",
+      "date": "2026-07-08",
+      "timeSlot": "10:30 - 12:00"
+    },
+    {
+      "id": "2",
+      "name": "Oda B",
+      "capacity": 10,
+      "status": "available",
+      "userId": null,
+      "date": null,
+      "timeSlot": null
+    },
+    {
+      "id": "3",
+      "name": "Oda C",
+      "capacity": 4,
+      "status": "available",
+      "userId": null,
+      "date": null,
+      "timeSlot": null
+    },
+    {
+      "id": "4",
+      "name": "Oda D",
+      "capacity": 8,
+      "status": "available",
+      "userId": null,
+      "date": null,
+      "timeSlot": null
     }
   ],
   "announcements": [
