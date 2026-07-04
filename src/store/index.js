@@ -4,6 +4,7 @@ import bookReducer from './bookSlice';
 import userReducer from './userSlice';
 import reservationReducer from './reservationSlice';
 import uiReducer from './uiSlice';
+import dashboardReducer from './dashboardSlice'; // 1. Kendi oluşturduğumuz slice'ı buraya ekledik
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,8 @@ export const store = configureStore({
     users: userReducer,
     reservations: reservationReducer,
     ui: uiReducer,
+    dashboard: dashboardReducer, // 2. Dashboard durum yönetimini store'a başarıyla bağladık
   },
 });
+
 export default store;
