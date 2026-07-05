@@ -37,6 +37,46 @@
     {
       "id": "5",
       "name": "Ahmet Hamdi Tanpınar"
+    },
+    {
+      "id": "6",
+      "name": "Fyodor Dostoyevski"
+    },
+    {
+      "id": "7",
+      "name": "George Orwell"
+    },
+    {
+      "id": "8",
+      "name": "Franz Kafka"
+    },
+    {
+      "id": "9",
+      "name": "Antoine de Saint-Exupéry"
+    },
+    {
+      "id": "10",
+      "name": "Albert Camus"
+    },
+    {
+      "id": "11",
+      "name": "José Saramago"
+    },
+    {
+      "id": "12",
+      "name": "Halid Ziya Uşaklıgil"
+    },
+    {
+      "id": "13",
+      "name": "Reşat Nuri Güntekin"
+    },
+    {
+      "id": "14",
+      "name": "Peyami Safa"
+    },
+    {
+      "id": "15",
+      "name": "Stefan Zweig"
     }
   ],
   "categories": [
@@ -98,7 +138,19 @@
       "shelfId": 1,
       "language": "Türkçe",
       "pages": 160,
-      "rating": 4.9
+      "rating": 4.9,
+      "publishYear": 1943,
+      "format": "pdf",
+      "description": "Sabahattin Ali'nin 1943 yılında yayımlanan bu ölümsüz eseri, Raif Efendi ile Maria Puder arasındaki derin ve melankolik aşkı konu alır. Türk edebiyatının en çok okunan başyapıtlarından biridir.",
+      "keywords": [
+        "aşk",
+        "melankoli",
+        "almanya",
+        "klasik",
+        "insan ruhu"
+      ],
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:1207631/wi:220/wh:1a63c8d49"
     },
     {
       "id": "2",
@@ -112,11 +164,22 @@
       "shelfId": 2,
       "language": "Türkçe",
       "pages": 436,
-      "rating": 4.8
+      "rating": 4.8,
+      "publishYear": 1955,
+      "format": "print",
+      "description": "Yaşar Kemal'in başyapıtı olan İnce Memed, Toroslar'dan düzene başkaldıran, köylünün sömürülmesine karşı mücadele eden efsanevi bir kahramanın hikayesidir.",
+      "keywords": [
+        "başkaldırı",
+        "toroslar",
+        "destansı",
+        "köylü",
+        "adalet"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:6663013/wi:220/wh:7246c4660"
     },
     {
       "id": "3",
-      "title": "Tutunamayanlar title düzenlendi",
+      "title": "Tutunamayanlar",
       "authorId": 3,
       "categoryId": 3,
       "publisherId": 2,
@@ -126,7 +189,19 @@
       "shelfId": 2,
       "language": "Türkçe",
       "pages": 724,
-      "rating": 5
+      "rating": 5.0,
+      "publishYear": 1972,
+      "format": "epub",
+      "description": "Oğuz Atay'ın Türk edebiyatında çığır açan postmodern eseri. Selim Işık'ın intiharının ardından arkadaşı Turgut Özben'in onun geçmişini araştırma sürecini ve Türk aydınının 'tutunamama' sancılarını anlatır.",
+      "keywords": [
+        "postmodern",
+        "aydın sancısı",
+        "intihar",
+        "hiciv",
+        "yalnızlık"
+      ],
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11462655/wi:220/wh:224bff9db"
     },
     {
       "id": "4",
@@ -135,12 +210,24 @@
       "categoryId": 3,
       "publisherId": 2,
       "isbn": "9789754700114",
-      "status": "maintenance",
+      "status": "available",
       "branchId": 2,
       "shelfId": 2,
       "language": "Türkçe",
       "pages": 480,
-      "rating": 4.7
+      "rating": 4.7,
+      "publishYear": 1998,
+      "format": "audio",
+      "description": "Orhan Pamuk'a Nobel Edebiyat Ödülü kazandıran yolda en önemli eserlerinden biridir. 1591 yılı Osmanlı dünyasında nakkaşlar arasında geçen gizemli bir cinayeti ve aşkı konu alır.",
+      "keywords": [
+        "tarih",
+        "osmanlı",
+        "cinayet",
+        "nakkaş",
+        "sanat"
+      ],
+      "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:265332/wi:220/wh:e3d05b889"
     },
     {
       "id": "5",
@@ -154,7 +241,387 @@
       "shelfId": 1,
       "language": "Türkçe",
       "pages": 382,
-      "rating": 4.8
+      "rating": 4.8,
+      "publishYear": 1954,
+      "format": "print",
+      "description": "Ahmet Hamdi Tanpınar'ın doğu ve batı arasındaki sıkışmışlığı, modernleşme sancılarını ironik ve absürt bir dille ele aldığı kült romanıdır.",
+      "keywords": [
+        "ironi",
+        "modernleşme",
+        "absürt",
+        "zaman",
+        "doğu-batı"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11964184/wi:220/wh:fa194c3f1"
+    },
+    {
+      "id": "6",
+      "title": "Suç ve Ceza",
+      "authorId": 6,
+      "categoryId": 2,
+      "publisherId": 2,
+      "isbn": "9789750719387",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 687,
+      "rating": 4.9,
+      "publishYear": 1866,
+      "format": "print",
+      "description": "Dostoyevski'nin başyapıtı. Raskolnikov'un işlediği cinayet sonrasında yaşadığı vicdan azabını, ahlak ve adalet kavramlarını derinlemesine sorgulayan başyapıt.",
+      "keywords": [
+        "vicdan",
+        "suç",
+        "rusya",
+        "klasik",
+        "psikolojik"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:3846451/wi:220/wh:421a1880a"
+    },
+    {
+      "id": "7",
+      "title": "1984",
+      "authorId": 7,
+      "categoryId": 1,
+      "publisherId": 2,
+      "isbn": "9789750718533",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 2,
+      "language": "Türkçe",
+      "pages": 352,
+      "rating": 4.9,
+      "publishYear": 1949,
+      "format": "pdf",
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11484453/wi:220/wh:394670a5c",
+      "description": "Büyük Birader'in her şeyi gözetlediği, özgür düşüncenin yasaklandığı bir distopya dünyası. Bireysel özgürlüklerin yok oluşunu anlatan kült eser.",
+      "keywords": [
+        "distopya",
+        "gözetim",
+        "özgürlük",
+        "siyaset"
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Hayvan Çiftliği",
+      "authorId": 7,
+      "categoryId": 3,
+      "publisherId": 2,
+      "isbn": "9789750719388",
+      "status": "available",
+      "branchId": 2,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 152,
+      "rating": 4.8,
+      "publishYear": 1945,
+      "format": "epub",
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11447395/wi:220/wh:7ef1af605",
+      "description": "Bir grup çiftlik hayvanının insanların sömürüsüne başkaldırıp kendi yönetimlerini kurmasını konu alan politik bir yergi.",
+      "keywords": [
+        "hiciv",
+        "politika",
+        "hayvanlar",
+        "alegori"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Dönüşüm",
+      "authorId": 8,
+      "categoryId": 2,
+      "publisherId": 1,
+      "isbn": "9789750724398",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 80,
+      "rating": 4.8,
+      "publishYear": 1915,
+      "format": "pdf",
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:59257/wi:220/wh:a1979d418",
+      "description": "Gregor Samsa'nın bir sabah uyandığında kendisini dev bir böceğe dönüşmüş olarak bulmasıyla başlayan absürt ve yalnızlık dolu hikaye.",
+      "keywords": [
+        "yalnızlık",
+        "absürt",
+        "yabancılaşma",
+        "aile"
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Küçük Prens",
+      "authorId": 9,
+      "categoryId": 3,
+      "publisherId": 1,
+      "isbn": "9789750724459",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 2,
+      "language": "Türkçe",
+      "pages": 96,
+      "rating": 5.0,
+      "publishYear": 1943,
+      "format": "audio",
+      "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11468334/wi:220/wh:bd52f2274",
+      "description": "Bir çocuğun gözünden büyüklerin dünyasını, sevgiyi, dostluğu ve yaşamın gerçek anlamını sorgulayan zamansız bir başyapıt.",
+      "keywords": [
+        "dostluk",
+        "sevgi",
+        "çocuk",
+        "felsefe"
+      ]
+    },
+    {
+      "id": "11",
+      "title": "Yabancı",
+      "authorId": 10,
+      "categoryId": 1,
+      "publisherId": 2,
+      "isbn": "9789750724886",
+      "status": "available",
+      "branchId": 2,
+      "shelfId": 2,
+      "language": "Türkçe",
+      "pages": 112,
+      "rating": 4.7,
+      "publishYear": 1942,
+      "format": "print",
+      "description": "Camus'nün varoluşçuluk ve absürdizm felsefesini en yalın haliyle işlediği, hayata kayıtsız kalan Meursault'nun topluma yabancılaşmasını anlatan roman.",
+      "keywords": [
+        "absürdizm",
+        "varoluşçuluk",
+        "yabancılaşma",
+        "adalet"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11262270/wi:220/wh:a54217d13"
+    },
+    {
+      "id": "12",
+      "title": "Körlük",
+      "authorId": 11,
+      "categoryId": 1,
+      "publisherId": 2,
+      "isbn": "9789750732554",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 336,
+      "rating": 4.8,
+      "publishYear": 1995,
+      "format": "pdf",
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11948029/wi:220/wh:b4fd5e486",
+      "description": "Bilinmeyen bir şehirde aniden yayılan beyaz körlük salgını karşısında toplumsal düzenin, ahlakın ve insanlığın çöküşünü ele alan sarsıcı bir yapıt.",
+      "keywords": [
+        "salgın",
+        "toplum",
+        "distopya",
+        "ahlak"
+      ]
+    },
+    {
+      "id": "13",
+      "title": "Mai ve Siyah",
+      "authorId": 12,
+      "categoryId": 3,
+      "publisherId": 1,
+      "isbn": "9789750805127",
+      "status": "available",
+      "branchId": 2,
+      "shelfId": 2,
+      "language": "Türkçe",
+      "pages": 412,
+      "rating": 4.6,
+      "publishYear": 1897,
+      "format": "print",
+      "description": "Servet-i Fünun edebiyatının en önemli temsilcisi. Ahmet Cemil'in hayalleri (mai) ve gerçeklerin ağırlığı (siyah) arasında sıkışan hayatını konu alır.",
+      "keywords": [
+        "hayal",
+        "gerçek",
+        "servet-i fünun",
+        "edebiyat"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:7305733/wi:220/wh:d42292a83"
+    },
+    {
+      "id": "14",
+      "title": "Aşk-ı Memnu",
+      "authorId": 12,
+      "categoryId": 1,
+      "publisherId": 1,
+      "isbn": "9789750805134",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 472,
+      "rating": 4.7,
+      "publishYear": 1900,
+      "format": "print",
+      "description": "Adnan Bey, genç karısı Bihter ve yeğeni Behlül arasındaki yasak aşkı ve çöküşü anlatan Türk edebiyatının realizm dönemindeki ilk büyük romanı.",
+      "keywords": [
+        "yasak aşk",
+        "realizm",
+        "konak hayatı",
+        "trajedi"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:10756972/wi:220/wh:f2e08d44c"
+    },
+    {
+      "id": "15",
+      "title": "Çalıkuşu",
+      "authorId": 13,
+      "categoryId": 1,
+      "publisherId": 1,
+      "isbn": "9789751000101",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 2,
+      "language": "Türkçe",
+      "pages": 544,
+      "rating": 4.9,
+      "publishYear": 1922,
+      "format": "print",
+      "description": "Feride'nin İstanbul'dan Anadolu'nun ücra köşelerine uzanan öğretmenlik hikayesini, aşkını ve bağımsızlığını kazanan güçlü bir kadının mücadelesini anlatır.",
+      "keywords": [
+        "anadolu",
+        "öğretmenlik",
+        "aşk",
+        "kadın gücü"
+      ],
+      "coverUrl": "https://i.idefix.com/resize/null/0/cache/600x600-0/originals/0000000052566-1.jpg"
+    },
+    {
+      "id": "16",
+      "title": "Dokuzuncu Hariciye Koğuşu",
+      "authorId": 14,
+      "categoryId": 3,
+      "publisherId": 1,
+      "isbn": "9789754370485",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 112,
+      "rating": 4.7,
+      "publishYear": 1930,
+      "format": "print",
+      "description": "Peyami Safa'nın otobiyografik özellikler taşıyan, dizinden rahatsız olan bir gencin hastane köşelerinde aşkla ve acıyla büyümesini anlatan psikolojik romanı.",
+      "keywords": [
+        "psikolojik",
+        "hastane",
+        "aşk",
+        "acı"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11644531/wi:220/wh:30d47751a"
+    },
+    {
+      "id": "17",
+      "title": "Satranç",
+      "authorId": 15,
+      "categoryId": 2,
+      "publisherId": 2,
+      "isbn": "9789750726439",
+      "status": "available",
+      "branchId": 2,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 88,
+      "rating": 4.9,
+      "publishYear": 1942,
+      "format": "audio",
+      "audioUrl": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:3555051/wi:220/wh:4814d2b69",
+      "description": "Dr. B'nin Gestapo tarafından hücreye hapsedildiğinde edindiği satranç kitabıyla zihnini delirmekten korumaya çalışmasının sarsıcı hikayesi.",
+      "keywords": [
+        "satranç",
+        "psikolojik",
+        "hücre",
+        "nazi"
+      ]
+    },
+    {
+      "id": "18",
+      "title": "Bilinmeyen Bir Kadının Mektubu",
+      "authorId": 15,
+      "categoryId": 2,
+      "publisherId": 2,
+      "isbn": "9789750726446",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 2,
+      "language": "Türkçe",
+      "pages": 64,
+      "rating": 4.8,
+      "publishYear": 1922,
+      "format": "epub",
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:11582931/wi:220/wh:85a72ad57",
+      "description": "Bir kadının ömrü boyunca gizli kalmış tutkulu aşkını, ölüm döşeğinde sevdiği adama yazdığı sarsıcı mektupla itiraf etmesi.",
+      "keywords": [
+        "aşk",
+        "mektup",
+        "trajedi",
+        "tutku"
+      ]
+    },
+    {
+      "id": "19",
+      "title": "Amok Koşucusu",
+      "authorId": 15,
+      "categoryId": 2,
+      "publisherId": 2,
+      "isbn": "9789750726453",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 96,
+      "rating": 4.8,
+      "publishYear": 1922,
+      "format": "pdf",
+      "pdfUrl": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:2671474/wi:220/wh:8806b4f8f",
+      "description": "Görev yaptığı ücra adada sır saklayan bir kadına yardım etmek isterken saplantılı bir çılgınlığa sürüklenen doktorun psikolojik gerilimi.",
+      "keywords": [
+        "saplantı",
+        "delilik",
+        "yardım",
+        "gerilim"
+      ]
+    },
+    {
+      "id": "20",
+      "title": "Dava",
+      "authorId": 8,
+      "categoryId": 2,
+      "publisherId": 1,
+      "isbn": "9789750724404",
+      "status": "available",
+      "branchId": 1,
+      "shelfId": 1,
+      "language": "Türkçe",
+      "pages": 232,
+      "rating": 4.8,
+      "publishYear": 1925,
+      "format": "print",
+      "description": "Josef K.'nın neden suçlandığını bilmeden tutuklanması ve absürt bürokratik bir mahkeme labirentinde adaleti aramasının hikayesi.",
+      "keywords": [
+        "bürokrasi",
+        "suçlama",
+        "absürt",
+        "adalet"
+      ],
+      "coverUrl": "https://img.kitapyurdu.com/v1/getImage/fn:1014050/wi:220/wh:e94cad5ab"
     }
   ],
   "users": [
@@ -253,13 +720,29 @@
       "id": "JHR0rqkqXjM"
     }
   ],
+  "readingList": [
+    {
+      "id": "1",
+      "userId": 1,
+      "bookId": 1
+    }
+  ],
   "reviews": [
     {
       "id": "1",
       "bookId": 1,
       "userId": 2,
+      "userName": "Ayşenur Yılmaz",
       "rating": 5,
-      "comment": "Harika."
+      "comment": "Gerçekten çok etkileyici ve akıcı bir kitap."
+    },
+    {
+      "id": "2",
+      "bookId": 1,
+      "userId": 1,
+      "userName": "Okan Şahin",
+      "rating": 4,
+      "comment": "Dönemin ruhunu çok iyi yansıtıyor."
     }
   ],
   "notifications": [
@@ -343,7 +826,30 @@
   "blogs": [
     {
       "id": "1",
-      "title": "Yaz İçin Kitap Önerileri"
+      "title": "Yaz İçin Kitap Önerileri",
+      "content": "Yaz aylarında okumak için hafif ama derinliği olan kitaplar mı arıyorsunuz? Klasiklerden modern edebiyata, tatilde size eşlik edecek en iyi kitap önerilerimiz bu yazıda. Sabahattin Ali'nin Kürk Mantolu Madonna'sından Yaşar Kemal'in destansı eserlerine kadar geniş bir yelpaze sunuyoruz.",
+      "category": "recommendation",
+      "date": "2026-07-01",
+      "author": "Ayşenur Yılmaz",
+      "imageUrl": "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "2",
+      "title": "Kütüphanemizde Dijital Dönüşüm Başladı!",
+      "content": "Kütüphane++ ekibi olarak artık tüm üyelerimize dijital kütüphane hizmeti sunmaktan mutluluk duyuyoruz. E-kitaplar, PDF kaynaklar ve sesli kitaplara tek tıkla ulaşabilirsiniz. Hemen profilinize girip dijital koleksiyonu keşfedin!",
+      "category": "news",
+      "date": "2026-07-05",
+      "author": "Kütüphane Yönetimi",
+      "imageUrl": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "3",
+      "title": "Yeni Kitaplarımız Raflardaki Yerini Aldı",
+      "content": "Temmuz ayı itibarıyla kütüphanemiz envanterine 50 yeni dünya klasiği ve modern kurgu dışı eser eklenmiştir. Bunlar arasında ödüllü bilimsel tezler ve popüler edebiyat eserleri de yer almaktadır. Hemen arama sayfamızdan 'Yeni Gelenler'i inceleyebilirsiniz.",
+      "category": "new_release",
+      "date": "2026-07-04",
+      "author": "Sudenaz Kaya",
+      "imageUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80"
     }
   ],
   "faqs": [

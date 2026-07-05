@@ -9,11 +9,19 @@ export const BookCard = ({ book, authorName, categoryName }) => {
       className="glass-card rounded-xl border border-outline-variant p-md flex flex-col justify-between cursor-pointer book-card-hover hover:border-vivid-purple/50 transition-all duration-300"
     >
       <div className="space-y-sm">
-        {/* Book Cover Placeholder */}
+        {/* Book Cover */}
         <div className="aspect-[2/3] w-full bg-surface-container-highest rounded-lg flex items-center justify-center border border-outline-variant/30 relative overflow-hidden group">
-          <span className="material-symbols-outlined text-outline text-5xl group-hover:scale-110 transition-transform duration-300">
-            book
-          </span>
+          {book.coverUrl ? (
+            <img
+              src={book.coverUrl}
+              alt={book.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <span className="material-symbols-outlined text-outline text-5xl group-hover:scale-110 transition-transform duration-300">
+              book
+            </span>
+          )}
           {book.rating && (
             <div className="absolute top-2 right-2 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-0.5 rounded-full flex items-center gap-xs border border-outline-variant/30">
               <span className="material-symbols-outlined text-accent-gold text-xs font-bold">star</span>

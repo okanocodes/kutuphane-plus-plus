@@ -67,6 +67,19 @@ export const fetchPublishers = createAsyncThunk(
   }
 );
 
+export const fetchBranches = createAsyncThunk(
+  'books/fetchBranches',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${BASE_URL}/branches`);
+      if (!res.ok) throw new Error('Şubeler yüklenemedi.');
+      return await res.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const addBook = createAsyncThunk(
   'books/addBook',
   async (bookData, { rejectWithValue }) => {
@@ -122,6 +135,7 @@ const initialState = {
   authors: [],
   categories: [],
   publishers: [],
+  branches: [],
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
 };
@@ -171,6 +185,10 @@ const bookSlice = createSlice({
       // fetchPublishers
       .addCase(fetchPublishers.fulfilled, (state, action) => {
         state.publishers = action.payload;
+      })
+      // fetchBranches
+      .addCase(fetchBranches.fulfilled, (state, action) => {
+        state.branches = action.payload;
       })
       // addBook
       .addCase(addBook.fulfilled, (state, action) => {
