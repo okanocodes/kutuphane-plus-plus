@@ -1,112 +1,57 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchBorrowedBooks, returnBook } from '../store/userSlice';
-import { fetchBooks } from '../store/bookSlice';
-import { fetchUsers } from '../store/userSlice';
-import useAuth from '../hooks/useAuth';
-import { addToast } from '../store/uiSlice';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { extendBookDueDate } from '../store/dashboardSlice';
 
-export const BorrowedBooksPage = () => {
+const BorrowedBooksPage = () => {
   const dispatch = useDispatch();
-  const { user, isAdmin, isLibrarian } = useAuth();
-  
-  const { borrowedBooks } = useSelector((state) => state.users);
-  const { books } = useSelector((state) => state.books);
-  const { users } = useSelector((state) => state.users);
-
-  useEffect(() => {
-    dispatch(fetchBorrowedBooks());
-    dispatch(fetchBooks());
-    dispatch(fetchUsers());
-  }, [dispatch]);
-
-  const showAll = isAdmin || isLibrarian;
-
-  const filteredBorrowed = showAll 
-    ? borrowedBooks 
-    : borrowedBooks.filter(b => String(b.userId) === String(user?.id));
-
-  const getBookTitle = (bookId) => {
-    return books.find(b => String(b.id) === String(bookId))?.title || `Kitap #${bookId}`;
-  };
-
-  const getUserName = (userId) => {
-    return users.find(u => String(u.id) === String(userId))?.name || `Kullanıcı #${userId}`;
-  };
-
-  const handleReturn = async (recordId, bookId) => {
-    const resultAction = await dispatch(returnBook({ borrowedRecordId: recordId, bookId }));
-    if (returnBook.fulfilled.match(resultAction)) {
-      dispatch(addToast({ message: 'Kitap başarıyla iade edildi.', type: 'success' }));
-    } else {
-      dispatch(addToast({ message: 'İade işlemi başarısız.', type: 'error' }));
-    }
-  };
+  // Redux store'dan ödünç alınan kitapları güvenli bir şekilde çekiyoruz
+  const borrowedBooks = useSelector((state) => state.dashboard?.borrowedBooks) || [];
 
   return (
-    <div className="space-y-lg">
-      <div className="flex justify-between items-center">
-        <h1 className="font-display-lg text-primary text-3xl font-bold">Ödünç Alınan Kitaplar</h1>
-        <span className="text-sm text-on-surface-variant font-label-sm">
-          {showAll ? 'Tüm Ödünç İşlemleri (Yönetici Görünümü)' : 'Ödünç Aldığım Kitaplar'}
-        </span>
-      </div>
-
-      <div className="glass-card rounded-xl border border-outline-variant overflow-x-auto">
-        <table className="min-w-full divide-y divide-outline-variant font-body-md text-sm text-left">
-          <thead className="bg-surface-container-high text-on-surface font-semibold">
-            <tr>
-              <th className="px-md py-sm">ID</th>
-              {showAll && <th className="px-md py-sm">Kullanıcı</th>}
-              <th className="px-md py-sm">Kitap</th>
-              <th className="px-md py-sm">Durum</th>
-              <th className="px-md py-sm text-right">İşlemler</th>
+    <div className="p-6 bg-slate-50 min-h-screen">
+      <h1 className="text-2xl font-bold text-slate-800 mb-6">Ödünç Aldığım Kitaplar</h1>
+      
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-slate-100 text-slate-600 text-sm font-semibold border-b border-slate-200">
+              <th className="p-4">Kitap Adı</th>
+              <th className="p-4">Yazar</th>
+              <th className="p-4">Son Teslim Tarihi</th>
+              <th className="p-4">Durum</th>
+              <th className="p-4 text-center">İşlemler</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-outline-variant">
-            {filteredBorrowed.length === 0 ? (
-              <tr>
-                <td colSpan={showAll ? 5 : 4} className="px-md py-lg text-center text-on-surface-variant">
-                  Ödünç alınmış kitap bulunamadı.
+          <tbody className="text-slate-700 text-sm divide-y divide-slate-100">
+            {borrowedBooks.map((book) => (
+              <tr key={book.id} className="hover:bg-slate-50 transition-colors">
+                <td className="p-4 font-medium text-slate-900">{book.title}</td>
+                <td className="p-4">{book.author}</td>
+                <td className="p-4 text-amber-600 font-medium">{book.dueDate}</td>
+                <td className="p-4">
+                  <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">
+                    {book.status}
+                  </span>
+                </td>
+                <td className="p-4 text-center space-x-2">
+                  <button 
+                    onClick={() => dispatch(extendBookDueDate(book.id))}
+                    className="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-indigo-700 transition-colors"
+                  >
+                    Süre Uzat
+                  </button>
+                  <span className="inline-block bg-slate-200 text-slate-700 px-2 py-1.5 rounded-lg text-xs cursor-pointer select-none transition-colors hover:bg-slate-300">
+                    QR Kod
+                  </span>
                 </td>
               </tr>
-            ) : (
-              filteredBorrowed.map((record) => (
-                <tr key={record.id} className="hover:bg-surface-container-high/50 transition-colors">
-                  <td className="px-md py-sm font-metadata-mono text-label-xs text-on-surface-variant">{record.id}</td>
-                  {showAll && <td className="px-md py-sm font-semibold">{getUserName(record.userId)}</td>}
-                  <td className="px-md py-sm font-medium">{getBookTitle(record.bookId)}</td>
-                  <td className="px-md py-sm">
-                    <span className={`inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full uppercase ${
-                      record.status === 'active' ? 'bg-amber-orange/20 text-ember-orange' :
-                      record.status === 'returned' ? 'bg-success/20 text-success' :
-                      'bg-error/20 text-error'
-                    }`}>
-                      {record.status === 'active' ? 'Aktif' :
-                       record.status === 'returned' ? 'İade Edildi' :
-                       record.status === 'overdue' ? 'Gecikmiş' : record.status}
-                    </span>
-                  </td>
-                  <td className="px-md py-sm text-right">
-                    {record.status === 'active' && (
-                      <button
-                        onClick={() => handleReturn(record.id, record.bookId)}
-                        className="px-sm py-1 bg-ember-orange text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all"
-                      >
-                        İade Et
-                      </button>
-                    )}
-                    {record.status === 'overdue' && (
-                      <button
-                        onClick={() => handleReturn(record.id, record.bookId)}
-                        className="px-sm py-1 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all animate-pulse"
-                      >
-                        İade Al
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))
+            ))}
+            {borrowedBooks.length === 0 && (
+              <tr>
+                <td colSpan="5" className="p-8 text-center text-slate-400 font-medium">
+                  Henüz ödünç aldığınız bir kitap bulunmamaktadır.
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
