@@ -80,6 +80,8 @@ export const SearchPage = () => {
     setSelectedBranch('all');
     setSortBy('title-az');
     setCurrentPage(1);
+    setTextSearch('');
+    navigate('/search');
   };
 
   const getCategoryName = (categoryId) => {
@@ -153,10 +155,10 @@ export const SearchPage = () => {
     <div className="flex flex-col lg:flex-row gap-lg relative min-h-screen">
       {/* Sidebar Filters */}
       <aside className="w-full lg:w-64 shrink-0 space-y-md lg:sticky lg:top-24 h-fit">
-        <form onSubmit={handleSearchSubmit} className="relative group">
+        <form onSubmit={handleSearchSubmit} className="relative group flex items-center">
           <input
             type="text"
-            className="w-full px-3 py-2 border border-outline-variant bg-surface-container text-on-surface rounded-lg focus:outline-none focus:ring-2 focus:ring-vivid-purple text-sm"
+            className="w-full pl-3 pr-14 py-2 border border-outline-variant bg-surface-container text-on-surface rounded-lg focus:outline-none focus:ring-2 focus:ring-vivid-purple text-sm"
             placeholder="Kitap, yazar, isbn veya anahtar kelime..."
             value={textSearch}
             onChange={(e) => {
@@ -164,7 +166,20 @@ export const SearchPage = () => {
               setCurrentPage(1);
             }}
           />
-          <button type="submit" className="absolute right-2 top-2 text-on-surface-variant cursor-pointer">
+          {textSearch && (
+            <button
+              type="button"
+              onClick={() => {
+                setTextSearch('');
+                setCurrentPage(1);
+                navigate('/search');
+              }}
+              className="absolute right-8 text-on-surface-variant hover:text-ember-orange transition-colors cursor-pointer flex items-center justify-center"
+            >
+              <span className="material-symbols-outlined text-base">close</span>
+            </button>
+          )}
+          <button type="submit" className="absolute right-2 text-on-surface-variant hover:text-ember-orange transition-colors cursor-pointer flex items-center justify-center">
             <span className="material-symbols-outlined text-base block">search</span>
           </button>
         </form>

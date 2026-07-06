@@ -1,35 +1,41 @@
-import { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBlogs } from '../store/blogSlice';
 import { fetchBooks } from '../store/bookSlice';
 import BlogCard from '../components/blog/BlogCard';
+import { slugify } from '../utils/slugify';
 
 export const BlogPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { slug } = useParams();
+
   const { blogs, status } = useSelector((state) => state.blogs);
   const { books } = useSelector((state) => state.books);
 
   const [activeCategory, setActiveCategory] = useState('all'); // 'all' | 'news' | 'recommendation' | 'new_release'
-  const [selectedBlog, setSelectedBlog] = useState(null);
 
   useEffect(() => {
     dispatch(fetchBlogs());
     dispatch(fetchBooks());
   }, [dispatch]);
 
-  // Filter blogs
+  // Match the active blog post based on the slug URL parameter
+  const selectedBlog = useMemo(() => {
+    if (!slug || !blogs.length) return null;
+    return blogs.find((b) => slugify(b.title) === slug);
+  }, [slug, blogs]);
+
+  // Filter blogs in the list
   const filteredBlogs = useMemo(() => {
     if (activeCategory === 'all') return blogs;
     return blogs.filter((b) => b.category === activeCategory);
   }, [blogs, activeCategory]);
 
-  // If a blog mentions recommended books (e.g. category is recommendation),
-  // we can show up to 2 books from the library to check out!
+  // Recommended books for recommendation posts
   const recommendedBooks = useMemo(() => {
     if (!selectedBlog || selectedBlog.category !== 'recommendation') return [];
-    // Just slice the first 2 books as recommendations
     return books.slice(0, 2);
   }, [selectedBlog, books]);
 
@@ -50,7 +56,7 @@ export const BlogPage = () => {
     return (
       <main className="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop py-md space-y-lg text-left">
         <button
-          onClick={() => setSelectedBlog(null)}
+          onClick={() => navigate('/blog')}
           className="flex items-center gap-xs text-on-surface-variant hover:text-ember-orange transition-all font-label-sm text-label-sm cursor-pointer"
         >
           <span className="material-symbols-outlined text-sm">arrow_back</span> Listeye Geri Dön
@@ -186,7 +192,7 @@ export const BlogPage = () => {
             <BlogCard
               key={blog.id}
               blog={blog}
-              onClick={() => setSelectedBlog(blog)}
+              onClick={() => navigate(`/blog/${slugify(blog.title)}`)}
             />
           ))}
         </div>
