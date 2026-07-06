@@ -1594,9 +1594,12 @@ export const AdminPage = () => {
         onClose={() => setIsBookModalOpen(false)}
         title={editingItem ? "Kitap Güncelle" : "Yeni Kitap Ekle"}
       >
-        <form onSubmit={handleBookSubmit} className="space-y-md text-sm">
-          <div>
-            <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">
+        <form
+          onSubmit={handleBookSubmit}
+          className="grid grid-cols-2 gap-x-6 gap-y-5 text-sm"
+        >
+          <div className="col-span-2">
+            <label className=" text-xs font-semibold text-on-surface-variant mb-1 uppercase ">
               Kitap Adı
             </label>
             <input
@@ -1681,8 +1684,8 @@ export const AdminPage = () => {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">
+          <div className="col-span-2">
+            <label className=" text-xs font-semibold text-on-surface-variant mb-1 uppercas">
               Kitap Kapağı (Resim)
             </label>
             <div className="flex gap-sm items-center mb-1">
@@ -1749,32 +1752,38 @@ export const AdminPage = () => {
           </div>
 
           {/* Custom Searchable Selects */}
-          <SearchableAddSelect
-            label="Yazar"
-            items={authors}
-            value={bookForm.authorId}
-            onChange={(id) => setBookForm({ ...bookForm, authorId: id })}
-            onAdd={handleAddAuthor}
-            placeholder="Yazar Seçiniz"
-          />
+          <div>
+            <SearchableAddSelect
+              label="Yazar"
+              items={authors}
+              value={bookForm.authorId}
+              onChange={(id) => setBookForm({ ...bookForm, authorId: id })}
+              onAdd={handleAddAuthor}
+              placeholder="Yazar Seçiniz"
+            />
+          </div>
 
-          <SearchableAddSelect
-            label="Kategori"
-            items={categories}
-            value={bookForm.categoryId}
-            onChange={(id) => setBookForm({ ...bookForm, categoryId: id })}
-            onAdd={handleAddCategory}
-            placeholder="Kategori Seçiniz"
-          />
+          <div>
+            <SearchableAddSelect
+              label="Kategori"
+              items={categories}
+              value={bookForm.categoryId}
+              onChange={(id) => setBookForm({ ...bookForm, categoryId: id })}
+              onAdd={handleAddCategory}
+              placeholder="Kategori Seçiniz"
+            />
+          </div>
 
-          <SearchableAddSelect
-            label="Yayınevi"
-            items={publishers}
-            value={bookForm.publisherId}
-            onChange={(id) => setBookForm({ ...bookForm, publisherId: id })}
-            onAdd={handleAddPublisher}
-            placeholder="Yayınevi Seçiniz"
-          />
+          <div>
+            <SearchableAddSelect
+              label="Yayınevi"
+              items={publishers}
+              value={bookForm.publisherId}
+              onChange={(id) => setBookForm({ ...bookForm, publisherId: id })}
+              onAdd={handleAddPublisher}
+              placeholder="Yayınevi Seçiniz"
+            />
+          </div>
 
           <div>
             <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">
@@ -1845,7 +1854,7 @@ export const AdminPage = () => {
             </div>
           </div>
 
-          <div className="pt-sm flex justify-end gap-sm font-body-md">
+          <div className="col-span-2 pt-4 mt-2 border-t border-outline-variant flex justify-end gap-sm font-body-md">
             <button
               type="button"
               onClick={() => setIsBookModalOpen(false)}
