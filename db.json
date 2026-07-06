@@ -133,7 +133,7 @@
       "categoryId": 2,
       "publisherId": 1,
       "isbn": "9789753638029",
-      "status": "available",
+      "status": "reserved",
       "branchId": 1,
       "shelfId": 1,
       "language": "Türkçe",
@@ -189,7 +189,7 @@
       "shelfId": 2,
       "language": "Türkçe",
       "pages": 724,
-      "rating": 5.0,
+      "rating": 5,
       "publishYear": 1972,
       "format": "epub",
       "description": "Oğuz Atay'ın Türk edebiyatında çığır açan postmodern eseri. Selim Işık'ın intiharının ardından arkadaşı Turgut Özben'in onun geçmişini araştırma sürecini ve Türk aydınının 'tutunamama' sancılarını anlatır.",
@@ -366,7 +366,7 @@
       "shelfId": 2,
       "language": "Türkçe",
       "pages": 96,
-      "rating": 5.0,
+      "rating": 5,
       "publishYear": 1943,
       "format": "audio",
       "audioUrl": "https://mcdn.podbean.com/mf/web/auq6cp/The_Little_Prince_Part_1_-_Down_To_Sleep_6499kew.mp3",
@@ -676,6 +676,13 @@
       "status": "approved",
       "date": "2026-07-03",
       "id": "2qibs_a8DUI"
+    },
+    {
+      "userId": 5,
+      "bookId": 1,
+      "status": "pending",
+      "date": "2026-07-06",
+      "id": "drEp3f1i5xw"
     }
   ],
   "borrowedBooks": [
@@ -725,6 +732,11 @@
       "id": "1",
       "userId": 1,
       "bookId": 1
+    },
+    {
+      "userId": 5,
+      "bookId": 4,
+      "id": "8Xh1g9sdULA"
     }
   ],
   "reviews": [
