@@ -18,6 +18,8 @@ export const FavoritesPage = () => {
     }
   }, [dispatch, user?.id]);
 
+  useEffect(() => { document.title = 'Kütüphane++ — Favoriler'; }, []);
+
   const handleRemoveFavorite = async (favId) => {
     const result = await dispatch(removeFavorite(favId));
     if (removeFavorite.fulfilled.match(result)) {

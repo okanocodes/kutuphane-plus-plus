@@ -39,6 +39,8 @@ export const SearchPage = () => {
     dispatch(fetchBranches());
   }, [dispatch]);
 
+  useEffect(() => { document.title = 'Kütüphane++ — Arama'; }, []);
+
   // Sync state if URL query changes
   useEffect(() => {
     const timer = setTimeout(() => {

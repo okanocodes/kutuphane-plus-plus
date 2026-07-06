@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addToast } from '../store/uiSlice';
 
 export const ContactPage = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const dispatch = useDispatch();
+  useEffect(() => { document.title = 'Kütüphane++ — İletişim'; }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -7,6 +7,7 @@ import BookCard from '../components/BookCard';
 export const HomePage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    useEffect(() => { document.title = 'Kütüphane++ — Anasayfa'; }, []);
     const [searchQuery, setSearchQuery] = useState('');
     const { books, authors, categories, status } = useSelector((state) => state.books);
 

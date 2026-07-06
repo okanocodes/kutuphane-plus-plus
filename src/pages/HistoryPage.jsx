@@ -8,6 +8,7 @@ import useAuth from '../hooks/useAuth';
 export const HistoryPage = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
+  useEffect(() => { document.title = 'Kütüphane++ — Geçmiş'; }, []);
   
   const { borrowedBooks } = useSelector((state) => state.users);
   const { reservations } = useSelector((state) => state.reservations);

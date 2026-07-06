@@ -1,5 +1,8 @@
 
+import { useEffect } from 'react';
+
 export const AboutPage = () => {
+  useEffect(() => { document.title = 'Kütüphane++ — Hakkında'; }, []);
   return (
     <div className="space-y-lg max-w-4xl mx-auto">
       <div className="space-y-sm text-center md:text-left">

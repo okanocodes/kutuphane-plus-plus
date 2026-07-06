@@ -19,6 +19,8 @@ export const MeetingRoomsPage = () => {
         dispatch(fetchMeetingRooms());
     }, [dispatch]);
 
+    useEffect(() => { document.title = 'Kütüphane++ — Toplantı Odaları'; }, []);
+
     const selectedRoom = useMemo(() => {
         return meetingRooms.find((room) => String(room.id) === String(selectedRoomId));
     }, [meetingRooms, selectedRoomId]);

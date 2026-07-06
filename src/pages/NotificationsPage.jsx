@@ -14,6 +14,8 @@ export const NotificationsPage = () => {
         }
     }, [dispatch, user?.id]);
 
+    useEffect(() => { document.title = 'Kütüphane++ — Bildirimler'; }, []);
+
     const unreadCount = notifications.filter((notification) => !notification.read).length;
 
     const getNotificationIcon = (type) => {

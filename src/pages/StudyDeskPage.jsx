@@ -23,6 +23,8 @@ export const StudyDeskPage = () => {
         dispatch(fetchStudyDesks());
     }, [dispatch]);
 
+    useEffect(() => { document.title = 'Kütüphane++ — Çalışma Masaları'; }, []);
+
     const selectedDesk = useMemo(() => {
         return studyDesks.find((desk) => String(desk.id) === String(selectedDeskId));
     }, [studyDesks, selectedDeskId]);

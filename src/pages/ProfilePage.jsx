@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth';
 import { updateUser } from '../store/userSlice';
@@ -8,6 +8,7 @@ export const ProfilePage = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { theme } = useSelector((state) => state.ui);
+  useEffect(() => { document.title = 'Kütüphane++ — Profil'; }, []);
   
   // Profile Info States
   const [name, setName] = useState(user?.name || '');

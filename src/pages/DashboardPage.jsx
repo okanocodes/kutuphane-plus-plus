@@ -28,6 +28,8 @@ export const DashboardPage = () => {
     dispatch(fetchMeetingRooms());
   }, [dispatch]);
 
+  useEffect(() => { document.title = 'Kütüphane++ — Panel'; }, []);
+
   // Calculate user specific stats
   const userBorrowed = borrowedBooks.filter(item => String(item.userId) === String(user?.id));
   const activeBorrowed = userBorrowed.filter(item => item.status === 'active');

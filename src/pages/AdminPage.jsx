@@ -286,6 +286,8 @@ export const AdminPage = () => {
       .then(data => { if (data) setSettings(data); });
   }, [dispatch]);
 
+  useEffect(() => { document.title = 'Kütüphane++ — Yönetim Paneli'; }, []);
+
   // Helper functions
   const getBookTitle = (bookId) => books.find(b => String(b.id) === String(bookId))?.title || `Kitap #${bookId}`;
   const getUserName = (userId) => users.find(u => String(u.id) === String(userId))?.name || `Kullanıcı #${userId}`;

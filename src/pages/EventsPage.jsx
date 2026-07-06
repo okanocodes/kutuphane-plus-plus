@@ -6,6 +6,7 @@ import useAuth from '../hooks/useAuth';
 
 export const EventsPage = () => {
     const dispatch = useDispatch();
+    useEffect(() => { document.title = 'Kütüphane++ — Etkinlikler'; }, []);
     const { user, isAuthenticated } = useAuth();
     const { events } = useSelector((state) => state.reservations);
 

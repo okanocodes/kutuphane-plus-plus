@@ -11,6 +11,7 @@ import Modal from '../components/Modal';
 export const BorrowedBooksPage = () => {
   const dispatch = useDispatch();
   const { user, isAdmin, isLibrarian } = useAuth();
+  useEffect(() => { document.title = 'Kütüphane++ — Ödünç Aldıklarım'; }, []);
   
   const { borrowedBooks, penalties, users } = useSelector((state) => state.users);
   const { books } = useSelector((state) => state.books);

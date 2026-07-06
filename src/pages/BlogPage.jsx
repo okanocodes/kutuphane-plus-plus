@@ -21,6 +21,11 @@ export const BlogPage = () => {
     dispatch(fetchBooks());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (selectedBlog) document.title = `${selectedBlog.title} — Kütüphane++`;
+    else document.title = 'Kütüphane++ — Blog';
+  }, [selectedBlog]);
+
   // Match the active blog post based on the slug URL parameter
   const selectedBlog = useMemo(() => {
     if (!slug || !blogs.length) return null;

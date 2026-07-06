@@ -42,6 +42,8 @@ export const ReservationsPage = () => {
     dispatch(fetchMeetingRooms());
   }, [dispatch]);
 
+  useEffect(() => { document.title = 'Kütüphane++ — Rezervasyonlarım'; }, []);
+
   const showAll = isAdmin || isLibrarian;
 
   // Filters for book reservations

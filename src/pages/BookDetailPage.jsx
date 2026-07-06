@@ -43,6 +43,14 @@ export const BookDetailPage = () => {
   }, [dispatch, id]);
 
   useEffect(() => {
+    if (selectedBook && selectedBook.title) {
+      document.title = `${selectedBook.title} — Kütüphane++`;
+    } else {
+      document.title = 'Kitap Detayı — Kütüphane++';
+    }
+  }, [selectedBook]);
+
+  useEffect(() => {
     if (isAuthenticated && user?.id) {
       dispatch(fetchFavorites(user.id));
       dispatch(fetchReadingList(user.id));

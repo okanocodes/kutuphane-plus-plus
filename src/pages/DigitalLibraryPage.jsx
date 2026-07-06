@@ -25,6 +25,8 @@ export const DigitalLibraryPage = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  useEffect(() => { document.title = 'Kütüphane++ — Dijital Kütüphane'; }, []);
+
   // Filter digital resources
   const digitalBooks = useMemo(() => {
     return books.filter((b) => {

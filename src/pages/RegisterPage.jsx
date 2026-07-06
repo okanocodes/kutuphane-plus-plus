@@ -10,6 +10,7 @@ export const RegisterPage = () => {
   const [role, setRole] = useState('student');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  useEffect(() => { document.title = 'Kütüphane++ — Kayıt Ol'; }, []);
   const { status } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {

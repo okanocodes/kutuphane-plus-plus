@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const FAQPage = () => {
   const [openIndexes, setOpenIndexes] = useState([]);
@@ -31,6 +31,8 @@ export const FAQPage = () => {
       current.includes(index) ? current.filter((item) => item !== index) : [...current, index]
     );
   };
+
+  useEffect(() => { document.title = 'Kütüphane++ — SSS'; }, []);
 
   return (
     <div className="space-y-lg max-w-4xl mx-auto text-left">

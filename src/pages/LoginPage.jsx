@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { loginUser, clearAuthError } from '../store/authSlice';
@@ -11,6 +11,8 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { status } = useSelector((state) => state.auth);
+
+  useEffect(() => { document.title = 'Kütüphane++ — Giriş'; }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
