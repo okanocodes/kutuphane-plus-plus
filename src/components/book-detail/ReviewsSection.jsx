@@ -64,17 +64,38 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
     const stars = [];
     const sizeClass = size === 'lg' ? 'text-2xl' : size === 'md' ? 'text-lg' : 'text-sm';
     for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <span
-          key={i}
-          onClick={clickable ? () => setRating(i) : undefined}
-          className={`material-symbols-outlined cursor-pointer select-none transition-colors ${
-            i <= score ? 'text-accent-gold font-bold' : 'text-outline-variant'
-          } ${sizeClass}`}
-        >
-          {i <= score ? 'star' : 'star_border'}
-        </span>
-      );
+      const filled = i <= score;
+      if (clickable) {
+        stars.push(
+          <button
+            key={i}
+            type="button"
+            onClick={() => setRating(i)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setRating(i);
+              }
+            }}
+            aria-label={`${i} yıldız`}
+            className={`material-symbols-outlined cursor-pointer select-none transition-colors bg-transparent border-0 p-0 ${filled ? 'text-accent-gold font-bold' : 'text-outline-variant'
+              } ${sizeClass}`}
+          >
+            {filled ? 'star' : 'star_border'}
+          </button>
+        );
+      } else {
+        stars.push(
+          <span
+            key={i}
+            className={`material-symbols-outlined select-none ${filled ? 'text-accent-gold font-bold' : 'text-outline-variant'
+              } ${sizeClass}`}
+            aria-hidden="true"
+          >
+            {filled ? 'star' : 'star_border'}
+          </span>
+        );
+      }
     }
     return <div className="flex items-center">{stars}</div>;
   };
