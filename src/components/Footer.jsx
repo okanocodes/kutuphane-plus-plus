@@ -15,13 +15,16 @@ const Footer = () => {
                     <Link className="font-label-xs text-label-xs text-on-surface-variant hover:text-ember-orange underline transition-all opacity-80 hover:opacity-100" to="/faq">Sıkça Sorulan Sorular</Link>
                     <Link className="font-label-xs text-label-xs text-on-surface-variant hover:text-ember-orange underline transition-all opacity-80 hover:opacity-100" to="/contact">İletişim</Link>
                 </div>
-                <div className="mt-lg md:mt-0 flex gap-md">
-                    <button className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-ember-orange transition-colors group">
-                        <span className="material-symbols-outlined text-sm group-hover:text-white">language</span>
-                    </button>
-                    <button className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:bg-ember-orange transition-colors group">
-                        <span className="material-symbols-outlined text-sm group-hover:text-white">share</span>
-                    </button>
+                <div className="mt-lg md:mt-0 flex flex-wrap justify-center gap-sm text-center">
+                    <Link className="font-label-xs text-label-xs text-on-surface-variant hover:text-ember-orange transition-all opacity-80 hover:opacity-100" to="/events">
+                        Etkinlikler
+                    </Link>
+                    <Link className="font-label-xs text-label-xs text-on-surface-variant hover:text-ember-orange transition-all opacity-80 hover:opacity-100" to="/study-desks">
+                        Çalışma Masası
+                    </Link>
+                    <Link className="font-label-xs text-label-xs text-on-surface-variant hover:text-ember-orange transition-all opacity-80 hover:opacity-100" to="/meeting-rooms">
+                        Toplantı Odaları
+                    </Link>
                 </div>
             </div>
         </footer>

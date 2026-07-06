@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export const FAQPage = () => {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndexes, setOpenIndexes] = useState([]);
 
   const faqs = [
     {
@@ -27,7 +27,9 @@ export const FAQPage = () => {
   ];
 
   const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
+    setOpenIndexes((current) =>
+      current.includes(index) ? current.filter((item) => item !== index) : [...current, index]
+    );
   };
 
   return (
@@ -41,9 +43,9 @@ export const FAQPage = () => {
 
       <div className="space-y-md pt-md">
         {faqs.map((faq, index) => {
-          const isOpen = openIndex === index;
+          const isOpen = openIndexes.includes(index);
           return (
-            <div 
+            <div
               key={index}
               className="glass-card rounded-xl border border-outline-variant/60 overflow-hidden transition-all duration-300"
             >
@@ -56,11 +58,10 @@ export const FAQPage = () => {
                   keyboard_arrow_down
                 </span>
               </button>
-              
-              <div 
-                className={`transition-all duration-300 ease-in-out ${
-                  isOpen ? 'max-h-[300px] border-t border-outline-variant/30 py-md px-lg' : 'max-h-0 overflow-hidden'
-                }`}
+
+              <div
+                className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[300px] border-t border-outline-variant/30 py-md px-lg' : 'max-h-0 overflow-hidden'
+                  }`}
               >
                 <p className="font-body-md text-on-surface-variant leading-relaxed text-sm md:text-base">
                   {faq.answer}
