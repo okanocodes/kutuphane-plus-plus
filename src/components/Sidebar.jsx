@@ -25,6 +25,8 @@ export const Sidebar = () => {
     { path: '/notifications', label: 'Bildirimler', icon: 'notifications' },
     { path: '/borrowed', label: 'Ödünç Kitaplar', icon: 'library_books' },
     { path: '/favorites', label: 'Favorilerim', icon: 'favorite' },
+    { path: '/digital-library', label: 'Dijital Kütüphane', icon: 'auto_stories' },
+    { path: '/blog', label: 'Blog & Haberler', icon: 'rss_feed' },
   ];
 
   // If Admin or Librarian, add Admin Panel link if not present

@@ -21,6 +21,8 @@ import SearchPage from './pages/SearchPage';
 import BookDetailPage from './pages/BookDetailPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import BlogPage from './pages/BlogPage';
+import DigitalLibraryPage from './pages/DigitalLibraryPage';
 
 // Auth Pages
 import LoginPage from './pages/LoginPage';
@@ -90,6 +92,9 @@ function App() {
           <Route path="/book/:id" element={<BookDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPage />} />
+          <Route path="/digital-library" element={<DigitalLibraryPage />} />
         </Route>
 
         <Route path="/events" element={<EventsRoute />} />

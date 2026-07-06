@@ -4,6 +4,8 @@ import bookReducer from './bookSlice';
 import userReducer from './userSlice';
 import reservationReducer from './reservationSlice';
 import uiReducer from './uiSlice';
+import favoriteReducer from './favoriteSlice';
+import blogReducer from './blogSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +14,8 @@ export const store = configureStore({
     users: userReducer,
     reservations: reservationReducer,
     ui: uiReducer,
+    favorites: favoriteReducer,
+    blogs: blogReducer,
   },
 });
 export default store;

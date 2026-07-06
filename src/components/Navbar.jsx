@@ -31,6 +31,8 @@ export const NavBar = () => {
                     <div className="hidden md:flex items-center gap-lg">
                         <Link className={`font-label-sm text-label-sm ${location.pathname === '/' ? 'text-ember-orange font-bold border-b-2 border-ember-orange pb-1' : 'text-on-surface-variant font-medium hover:text-ember-orange'}`} to="/">Ana Sayfa</Link>
                         <Link className={`font-label-sm text-label-sm ${location.pathname === '/search' || location.pathname === '/books' ? 'text-ember-orange font-bold border-b-2 border-ember-orange pb-1' : 'text-on-surface-variant font-medium hover:text-ember-orange'}`} to="/search">Kitap Ara</Link>
+                        <Link className={`font-label-sm text-label-sm ${location.pathname === '/digital-library' ? 'text-ember-orange font-bold border-b-2 border-ember-orange pb-1' : 'text-on-surface-variant font-medium hover:text-ember-orange'}`} to="/digital-library">Dijital Kütüphane</Link>
+                        <Link className={`font-label-sm text-label-sm ${location.pathname === '/blog' ? 'text-ember-orange font-bold border-b-2 border-ember-orange pb-1' : 'text-on-surface-variant font-medium hover:text-ember-orange'}`} to="/blog">Blog</Link>
                         <Link className="text-on-surface-variant font-medium hover:text-ember-orange transition-colors duration-200 font-label-sm text-label-sm" to="/events">Etkinlikler</Link>
                     </div>
                 </div>
