@@ -32,6 +32,21 @@ export const markNotificationRead = createAsyncThunk(
   }
 );
 
+export const deleteNotification = createAsyncThunk(
+  'ui/deleteNotification',
+  async (notificationId, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${BASE_URL}/notifications/${notificationId}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error('Bildirim silinemedi.');
+      return notificationId;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const getInitialTheme = () => {
   const saved = localStorage.getItem('theme');
   return saved || 'dark'; // Midnight & Ember defaults to dark mode
@@ -76,6 +91,9 @@ const uiSlice = createSlice({
         if (index !== -1) {
           state.notifications[index] = action.payload;
         }
+      })
+      .addCase(deleteNotification.fulfilled, (state, action) => {
+        state.notifications = state.notifications.filter(n => n.id !== action.payload);
       });
   },
 });

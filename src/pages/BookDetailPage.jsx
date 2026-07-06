@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchBookById, fetchAuthors, fetchCategories, fetchPublishers, fetchBooks, clearSelectedBook } from '../store/bookSlice';
 import { createReservation } from '../store/reservationSlice';
 import { fetchFavorites, addFavorite, removeFavorite, fetchReadingList, addReadingList, removeReadingList } from '../store/favoriteSlice';
+import { fetchBorrowedBooks, fetchUsers } from '../store/userSlice';
 import { addToast } from '../store/uiSlice';
 import useAuth from '../hooks/useAuth';
 
@@ -18,9 +19,10 @@ export const BookDetailPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isAdmin, isLibrarian } = useAuth();
   const { selectedBook, books, authors, categories, publishers, status } = useSelector((state) => state.books);
   const { favorites, readingList } = useSelector((state) => state.favorites);
+  const { borrowedBooks, users } = useSelector((state) => state.users);
 
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isPDFModalOpen, setIsPDFModalOpen] = useState(false);
@@ -32,6 +34,8 @@ export const BookDetailPage = () => {
     dispatch(fetchAuthors());
     dispatch(fetchCategories());
     dispatch(fetchPublishers());
+    dispatch(fetchBorrowedBooks());
+    dispatch(fetchUsers());
 
     return () => {
       dispatch(clearSelectedBook());
@@ -141,12 +145,66 @@ export const BookDetailPage = () => {
   const authorName = authors.find(a => String(a.id) === String(selectedBook?.authorId))?.name || 'Yazar Bilinmiyor';
   const categoryName = categories.find(c => String(c.id) === String(selectedBook?.categoryId))?.name || 'Kategori Bilinmiyor';
   const publisherName = publishers.find(p => String(p.id) === String(selectedBook?.publisherId))?.name || 'Yayınevi Bilinmiyor';
+  const bookLoans = borrowedBooks.filter(loan => String(loan.bookId) === String(selectedBook?.id));
 
   if (status === 'loading' || !selectedBook) {
     return (
-      <div className="text-center py-20">
-        <p className="text-on-surface-variant font-body-md">Detaylar yükleniyor...</p>
-      </div>
+      <main className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-md animate-pulse space-y-lg">
+        {/* Breadcrumb & Top Action Skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-md border-b border-outline-variant/30 pb-md">
+          <div className="h-6 w-48 bg-surface-container-high rounded-lg"></div>
+          <div className="flex gap-sm">
+            <div className="h-9 w-32 bg-surface-container-high rounded-xl"></div>
+            <div className="h-9 w-32 bg-surface-container-high rounded-xl"></div>
+          </div>
+        </div>
+
+        {/* Main Details Grid Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+          {/* Left Column (Cover and Meta Data Table) */}
+          <div className="lg:col-span-4 space-y-md">
+            <div className="aspect-[2/3] w-full bg-surface-container-high rounded-2xl border border-outline-variant/20 shadow-glow-accent/5"></div>
+            
+            <div className="p-md bg-surface-container-low rounded-2xl border border-outline-variant/40 space-y-md">
+              <div className="h-5 w-24 bg-surface-container-high rounded"></div>
+              <div className="space-y-sm">
+                <div className="flex justify-between">
+                  <div className="h-4 w-16 bg-surface-container-high rounded"></div>
+                  <div className="h-4 w-20 bg-surface-container-high rounded"></div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="h-4 w-12 bg-surface-container-high rounded"></div>
+                  <div className="h-4 w-24 bg-surface-container-high rounded"></div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="h-4 w-20 bg-surface-container-high rounded"></div>
+                  <div className="h-4 w-16 bg-surface-container-high rounded"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column (Info, Description, Actions) */}
+          <div className="lg:col-span-8 space-y-lg">
+            <div className="space-y-md">
+              <div className="h-10 w-5/6 bg-surface-container-high rounded-lg"></div>
+              <div className="h-5 w-1/3 bg-surface-container-high rounded"></div>
+              <div className="h-7 w-24 bg-surface-container-high rounded-full"></div>
+            </div>
+
+            <div className="space-y-sm p-md bg-surface-container-low rounded-2xl border border-outline-variant/40">
+              <div className="h-4 w-full bg-surface-container-high rounded"></div>
+              <div className="h-4 w-full bg-surface-container-high rounded"></div>
+              <div className="h-4 w-5/6 bg-surface-container-high rounded"></div>
+            </div>
+
+            <div className="flex flex-wrap gap-sm pt-md border-t border-outline-variant/30">
+              <div className="h-12 w-36 bg-surface-container-high rounded-xl"></div>
+              <div className="h-12 w-36 bg-surface-container-high rounded-xl"></div>
+            </div>
+          </div>
+        </div>
+      </main>
     );
   }
 
@@ -344,6 +402,35 @@ export const BookDetailPage = () => {
                 </div>
               </div>
             )}
+
+            {/* Ödünç Geçmişi */}
+            <div className="space-y-sm pt-md border-t border-outline-variant/30">
+              <h2 className="font-headline-h2 text-xl font-bold border-l-4 border-ember-orange pl-md">Kitap Okuma Geçmişi</h2>
+              {bookLoans.length === 0 ? (
+                <p className="font-body-md text-on-surface-variant text-sm py-xs">Bu kitabın henüz bir ödünç alma kaydı bulunmuyor.</p>
+              ) : (
+                <div className="space-y-xs max-h-[200px] overflow-y-auto pr-xs">
+                  {bookLoans.map((loan) => {
+                    const isOwnLoan = String(loan.userId) === String(user?.id);
+                    const userName = users.find(u => String(u.id) === String(loan.userId))?.name || `Kullanıcı #${loan.userId}`;
+                    const showAll = isAdmin || isLibrarian;
+                    return (
+                      <div key={loan.id} className="flex justify-between items-center bg-surface-container/50 border border-outline-variant/30 px-md py-sm rounded-lg text-sm">
+                        <div className="flex items-center gap-xs">
+                          <span className="material-symbols-outlined text-sm text-on-surface-variant">person</span>
+                          <span className="font-medium text-on-surface text-xs">
+                            {showAll ? userName : isOwnLoan ? 'Siz (Bu kitabı okudunuz)' : 'Kütüphane Üyesi'}
+                          </span>
+                        </div>
+                        <span className="font-metadata-mono text-[10px] text-on-surface-variant">
+                          {loan.status === 'active' ? 'Şu an okuyor' : loan.status === 'overdue' ? 'Gecikmede' : `${loan.returnDate || '—'} tarihinde iade etti`}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

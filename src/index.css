@@ -198,7 +198,9 @@
 /* ==========================================
    AG Grid overrides for Midnight & Ember
    ========================================== */
-.ag-theme-custom {
+.ag-theme-custom,
+.ag-theme-quartz-dark.ag-theme-custom,
+.ag-theme-quartz.ag-theme-custom {
   --ag-background-color: #1f1f24 !important;
   --ag-header-background-color: #292a2f !important;
   --ag-border-color: #4a454d !important;
@@ -208,9 +210,41 @@
   --ag-selected-row-background-color: rgba(255, 93, 58, 0.15) !important;
   --ag-font-family: "Inter", sans-serif !important;
   --ag-font-size: 14px !important;
+  
+  /* Input & Filter Styles */
+  --ag-input-background-color: #121318 !important;
+  --ag-input-border-color: #4a454d !important;
+  --ag-input-text-color: #e3e1e8 !important;
+  --ag-input-focus-border-color: #FF5D3A !important;
+  --ag-card-background-color: #1f1f24 !important;
+  --ag-control-panel-background-color: #1f1f24 !important;
+
   border-radius: 0.75rem;
   overflow: hidden;
   border: 1px solid #4a454d !important;
+}
+
+/* Bulletproof Direct Overrides to Eliminate Any White Backgrounds */
+.ag-theme-custom .ag-root-wrapper,
+.ag-theme-custom .ag-root-wrapper-body,
+.ag-theme-custom .ag-root,
+.ag-theme-custom .ag-header,
+.ag-theme-custom .ag-header-row,
+.ag-theme-custom .ag-header-cell,
+.ag-theme-custom .ag-row,
+.ag-theme-custom .ag-cell,
+.ag-theme-custom .ag-paging-panel,
+.ag-theme-custom .ag-floating-filter,
+.ag-theme-custom .ag-filter-wrapper,
+.ag-theme-custom .ag-menu,
+.ag-theme-custom .ag-popup-editor,
+.ag-theme-custom .ag-card,
+.ag-theme-custom .ag-grid-scrolling-rows,
+.ag-theme-custom .ag-body-viewport,
+.ag-theme-custom .ag-body-horizontal-scroll-viewport {
+  background-color: #1f1f24 !important;
+  color: #e3e1e8 !important;
+  border-color: #4a454d !important;
 }
 
 .ag-theme-custom .ag-header-cell-label {
@@ -218,9 +252,36 @@
   text-transform: uppercase !important;
   font-size: 12px !important;
   letter-spacing: 0.05em !important;
+  color: #d3beeb !important;
 }
 
 .ag-theme-custom .ag-row {
   border-bottom: 1px solid #4a454d !important;
+}
+
+.ag-theme-custom .ag-cell {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Force styling on filter inputs and selectors */
+.ag-theme-custom input,
+.ag-theme-custom select,
+.ag-theme-custom textarea,
+.ag-theme-custom .ag-filter-text-input,
+.ag-theme-custom .ag-floating-filter-button-button {
+  background-color: #121318 !important;
+  color: #e3e1e8 !important;
+  border: 1px solid #4a454d !important;
+  border-radius: 6px !important;
+}
+
+.ag-theme-custom .ag-paging-button,
+.ag-theme-custom .ag-paging-row-summary-panel {
+  color: #e3e1e8 !important;
+}
+
+.ag-theme-custom .ag-row-hover {
+  background-color: rgba(91, 33, 182, 0.2) !important;
 }
 

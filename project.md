@@ -1,539 +1,70 @@
-# Proje Başlatma Rehberi (React + Vite + Tailwind CSS + JSON Server + Redux Toolkit + AG Grid)
+# Kütüphane++ (Kütüphane Plus Plus) — Detaylı Proje Raporu
 
-Bu şablon, yeni bir yazılım projesine başlarken projenin tüm detaylarını (tasarım, renkler, sayfalar, veri modeli ve state yönetimi) belirlemek ve Antigravity'nin projeyi sıfırdan kurmasını sağlamak amacıyla hazırlanmıştır.
-
-Projenizi başlatmadan önce aşağıdaki alanları kendi projenizin gereksinimlerine göre doldurun.
+Bu belge, **Kütüphane++** dijital kütüphane yönetim ve rezervasyon platformunun tasarım hedeflerini, kapsamını, teknik mimarisini ve proje boyunca uygulanan mühendislik çözümlerini detaylandırmak amacıyla hazırlanmıştır.
 
 ---
 
-## 1. Genel Proje Bilgileri
+## 1. Proje Hakkında Genel Bilgi
 
-- **Proje Adı:** `Kütüphane++`
-- **Kısa Açıklama:** `Kapsamlı bir Kütüphane Yönetim ve Rezervasyon Sistemi için hem kullanıcıların hem de kütüphane görevlilerinin ihtiyaçlarını karşılayacak sayfalar aşağıdaki gibi olabilir.`
-- **Hedef Kitle:** ` Kütüphane kullanıcıları (öğrenciler, akademisyenler, personel) ve kütüphane yöneticileri.`
+**Kütüphane++**, geleneksel kütüphane yönetim sistemlerini modern dijital kullanıcı alışkanlıklarına göre yeniden yorumlayan, kullanıcı dostu ve yüksek etkileşimli bir web uygulamasıdır.
 
-- Features:
-
-  ## 1. Ana Sayfa (Home)
-  - **Hero Alanı:** Gelişmiş arama çubuğu ve karşılama metni.
-  - **Kitap Vitrinleri:**
-    - Popüler kitaplar
-    - Yeni gelen kitaplar
-    - En çok ödünç alınanlar
-  - **Haberler & Sosyal:** Duyurular ve Etkinlikler.
-  - **Hızlı Erişim & Durum:**
-    - Canlı çalışma alanı doluluk durumu
-    - Hızlı rezervasyon butonu
-    - Kategori kartları (Görsel destekli)
-
-  ## 2. Giriş / Kayıt
-  - Giriş Yap / Kayıt Ol
-  - Şifremi Unuttum & E-posta doğrulama
-  - **Entegrasyonlar:** Google / Microsoft ile Tek Tıkla Giriş (SSO)
-
-  ## 3. Kitap Arama (Gelişmiş Arama Filtreleri)
-
-  Arama motoru oldukça gelişmiş bir yapıda olmalı ve aşağıdaki kırılımlara göre filtreleme yapabilmelidir:
-  - **Metin Tabanlı:** Kitap adı, Yazar, ISBN, Anahtar kelimeler
-  - **Yayın Bilgisi:** Yayın yılı, Dil, Yayınevi, Kategori
-  - **Fiziksel Konum:** Raf konumu
-  - **Format:** E-kitap, Sesli kitap, Basılı kitap (Sayfa sayısı filtresi ile)
-  - **Durum Filtresi:**
-    - 🟢 Müsait
-    - 🔴 Ödünçte
-    - 🟡 Rezerve
-
-  ## 4. Kitap Detay Sayfası
-
-  ### 📋 İçerik ve Künye Bilgileri
-  - Kitap kapağı görseli
-  - Kitap adı ve Yazar
-  - ISBN ve Barkod numarası
-  - Kategori ve Alt kategori
-  - Yayın yılı ve Baskı sayısı
-  - Sayfa sayısı ve Dil
-  - Fiziksel raf bilgisi (Örn: _Kat 2 - Salon A - Raf 14B_)
-  - Kitap özeti ve Anahtar kelimeler
-  - Kullanıcı puanları ve Yorumlar
-  - Benzer kitaplar öneri listesi
-  - **Anlık Müsaitlik Durumu**
-
-  ### ⚙️ Aksiyon Butonları
-  - `Rezervasyon Yap`
-  - `Favorilere Ekle` / `Okuma Listeme Ekle`
-  - `Ödünç Geçmişi` (Bu kitabı daha önce kimler okudu/ben aldım mı?)
-  - `QR Kod Oluştur` (Kütüphanede kitabı hızlıca bulmak veya teslim almak için)
-  - `PDF Önizleme` (Dijital kopyası varsa ilk 10 sayfa önizleme)
-
-  ## 5. Kitap Rezervasyon Sayfası
-  - **Kullanıcı Adımları:** Kitap seçimi ➔ Tarih seçimi ➔ Teslim alma şubesi seçimi ➔ Rezervasyon süresi belirleme ➔ Onay.
-  - **Gösterilecek Bilgiler:** Sıra numarası, Bekleme listesi sırası, Tahmini teslim tarihi ve Güncel rezervasyon durumu.
-
-  ## 6. Çalışma Masası Rezervasyonu
-  - **Hiyerarşik Seçim:** Kat seçimi ➔ Salon seçimi ➔ Masa seçimi ➔ Saat/Slot seçimi.
-  - **Giriş & Kontrol:** QR kodlu giriş sistemi (Masaya gidildiğinde check-in yapmak için).
-  - **Aksiyonlar:** Rezervasyonu iptal et veya (eğer arkasından gelen yoksa) Rezervasyonu uzat.
-
-  ## 7. Toplantı / Grup Çalışma Odası Rezervasyonu
-  - Oda seçimi ve Kapasite kontrolü (Örn: 6 Kişilik, 12 Kişilik).
-  - Saat seçimi ve İnteraktif takvim görünümü.
-  - Oda rezervasyon geçmişi.
-
-  ## 8. Etkinlik Rezervasyonu
-  - **Etkinlik Türleri:** Söyleşiler, Kitap kulüpleri, Seminerler, Eğitimler.
-  - **Etkinlik Detayları:** Kontenjan ve Kalan yer durumu, Konuşmacı/Eğitmen bilgisi, Saat, Konum/Salon.
-
-  ***
-
-  ## 9. Kullanıcı Paneli (Dashboard)
-
-  ### 📊 Bilgi Kartları (Widgets)
-  - Aktif ödünç alınan kitaplar
-  - Yaklaşan teslim tarihleri (Kalan gün sayısı ile)
-  - Aktif rezervasyonlar
-  - Varsa ceza borcu tutarı
-  - Favori kitap sayısı
-
-  ### 📈 İstatistik Grafikleri
-  - Kişisel okuma istatistikleri (Yıllık/Aylık)
-  - En çok okunan kategorilerin dağılımı (Pasta grafik)
-  - Aylara göre okunan kitap sayısı (Bar grafik)
-
-  ## 10. Rezervasyonlarım
-  - **Durum Listesi:** Aktif, Bekleyen, İptal edilen, Tamamlanan rezervasyonlar.
-  - **İşlemler:** İptal et, Tarih değiştir, Rezervasyon detaylarını gör.
-
-  ## 11. Ödünç Aldığım Kitaplar
-  - Kitap bazlı detaylar: Teslim tarihi, Kalan gün sayısı.
-  - **Hızlı Aksiyonlar:** Süre Uzatma talebi, Ceza durumu sorgulama, Hızlı iade için QR Kod.
-
-  ## 12. Favoriler & Listeler
-  - Favori kitaplar
-  - Kişisel okuma listeleri
-  - "Daha sonra oku" sekmesi
-
-  ## 13. Geçmiş
-  - Okunan kitaplar (Kronolojik)
-  - Önceki rezervasyon geçmişi
-  - Eski ödünç işlemleri
-
-  ## 14. Bildirimler
-  - Rezervasyon onay/iptal bildirimleri
-  - Teslim tarihi yaklaşıyor uyarısı (SMS/E-posta/Push)
-  - Ceza bildirimi ve borç hatırlatması
-  - Kütüphaneye eklenen yeni kitap bildirimleri
-  - Etkinlik duyuruları
-
-  ## 15. Profil & Ayarlar
-  - **Bilgiler:** Profil fotoğrafı, Ad-Soyad, Öğrenci/Sicil numarası, Bölüm/Birim, Telefon, E-posta.
-  - **Ayarlar:** Şifre değiştirme, Bildirim tercihleri (Aç/Kapat), Tema seçimi (Karanlık/Aydınlık), Dil seçimi.
-
-  ## 16. Dijital Kütüphane
-  - PDF kaynaklar, E-kitaplar, Sesli kitaplar.
-  - Akademik makaleler ve Tezler.
-
-  ## 17. Blog / Haberler
-  - Editörün seçtiği yeni kitaplar ve Kitap önerileri.
-  - Etkinlik haberleri ve resmi duyurular.
-
-  ## 18. SSS (Sıkça Sorulan Sorular)
-  - Nasıl rezervasyon yapılır?
-  - Kitap ödünç süresi nasıl uzatılır?
-  - Gecikme cezası online nasıl ödenir?
-
-  ## 19. İletişim & 20. Hakkımızda
-  - **İletişim:** İnteraktif harita, Telefon, E-posta, Bize Yazın (Mesaj gönderim formu).
-  - **Hakkımızda:** Tarihçe, Misyon & Vizyon, Kütüphane çalışma saatleri.
-
-  ***
-
-  ## 21. Yönetici Paneli (Admin Dashboard)
-
-  ### 📈 Genel İstatistikler
-  - Günlük ziyaretçi sayısı
-  - Günlük rezervasyon ve ödünç sayıları
-  - En popüler/En çok aranan kitaplar
-
-  ### 🛠️ Yönetim Modülleri
-
-  | Modül Adı                  | İçerik ve İşlemler                                                                                                                |
-  | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
-  | **Kitap Yönetimi**         | Kitap ekle/güncelle/sil, Barkod/QR kod oluşturma, Excel ile toplu kitap içe aktarma.                                              |
-  | **Kullanıcı Yönetimi**     | Öğrenci, Akademisyen ve Personel listeleri. Yetkilendirme, Hesap dondurma, Ceza tanımlama.                                        |
-  | **Rezervasyon Yönetimi**   | Rezervasyon onaylama/iptal, Bekleme listesi yönetimi, Manuel süre uzatma.                                                         |
-  | **Ödünç Yönetimi**         | Kitap teslim alma (İade) ve Teslim etme işlemleri, Gecikmelerin takibi, Ceza yansıtma.                                            |
-  | **Etkinlik Yönetimi**      | Etkinlik oluşturma, Kontenjan belirleme, Katılımcı listesi yönetimi, Etkinlik kapısında QR ile giriş kontrolü.                    |
-  | **Çalışma Alanı Yönetimi** | Kat/Salon bazlı masa ve oda tanımlama, Kapasite ayarları, Canlı doluluk takibi.                                                   |
-  | **Raporlar Modülü**        | En çok okunan kitaplar, En aktif kullanıcılar, Gecikme ve Ceza raporları, PDF/Excel çıktıları.                                    |
-  | **Sistem Ayarları**        | Çalışma saatleri, Maksimum ödünç limitleri, Rezervasyon süre sınırları, Günlük ceza miktarı, SMTP (E-posta) ve Bildirim ayarları. |
-
-  ***
-
-  ## 🗄️ Önerilen Veritabanı Modülleri (Tablolar)
-
-  Sistemin backend mimarisinde bulunması gereken temel tablolar:
-
-  ```sql
-  -- Temel Veritabanı Tablo Yapısı Örneği
-  - Users (Kullanıcılar) & Roles (Roller)
-  - Books (Kitaplar), Authors (Yazarlar), Categories (Kategoriler), Publishers (Yayınevleri)
-  - Shelves (Raflar / Konumlar)
-  - Loans (Ödünç İşlemleri) & Reservations (Rezervasyonlar)
-  - Desks (Çalışma Masaları) & MeetingRooms (Toplantı Odaları)
-  - Events (Etkinlikler)
-  - Notifications (Bildirimler)
-  - Favorites (Favoriler), Comments (Yorumlar), Ratings (Puanlamalar)
-  - Fines (Cezalar)
-  - DigitalContents (Dijital İçerikler)
-  - SystemLogs (Sistem Logları)
-  ```
+Sistem; okuyucuların (öğrenciler, akademisyenler) kütüphane kaynaklarına kolayca erişebilmesini sağlarken, kütüphane yöneticileri ve kütüphaneciler için de operasyonel süreçleri kolaylaştıracak gelişmiş araçlar sunar. "Midnight & Ember" temasıyla zenginleştirilmiş koyu mod tasarımı, kullanıcılara modern bir dijital yayın platformu estetiği sunar.
 
 ---
 
-## 2. Shared Components:
+## 2. Temel Arayüz Özellikleri ve Sayfalar
 
-### Button
+Uygulama, zengin özellik setiyle tek sayfa uygulama (SPA) yapısında kurgulanmış olup şu ana bölümlerden oluşmaktadır:
 
-### Input
-
-### Select
-
-### Multi Select
-
-### Checkbox
-
-### Radio
-
-### Textarea
-
-### Modal
-
-### Drawer
-
-### Dropdown
-
-### Tabs
-
-### Accordion
-
-### Tooltip
-
-### Badge
-
-### Avatar
-
-### Table
-
-### Pagination
-
-### Breadcrumb
-
-### Card
-
-### Alert
-
-### Toast
-
-### Loading
-
-### Skeleton
-
-### Empty State
-
-### Search Bar
-
-### Date Picker
-
-### Calendar
-
-### Rating
-
-### QR Component
-
-### Charts
+- **Kontrol Paneli (Dashboard):** Kullanıcının aktif ödünç aldığı kitap sayılarını, aylık okuma hedeflerini, güncel ceza durumlarını, masa ve oda rezervasyonlarını anlık olarak takip edebildiği kişiselleştirilmiş panosudur.
+- **Kitap Kataloğu ve Detay Sayfası:** Kütüphanedeki tüm kitapların kategori, yazar, format (PDF/Basılı) ve yayın yılına göre filtrelenebildiği alandır. Kitap detayında kullanıcılar kitaba puan verebilir, yorum yazabilir veya kitabı rezerve edebilirler.
+- **Ödünç Kitaplar Yönetimi (Borrowed Books):** Kullanıcıların aktif okudukları kitapları ve iade sürelerini izlediği ekrandır. Gecikmiş kitaplar için canlı ceza hesaplaması yapılır. Süre uzatma talebi veya iade işlemi için dinamik QR kod simülasyonu sunulur.
+- **Çalışma Alanı & Masa Rezervasyonu:** Kütüphane katlarında ve salonlarında yer alan çalışma masalarının doluluk durumunu interaktif olarak gösteren ve kullanıcılara saat aralığı seçerek masa ayırtma olanağı tanıyan modüldür.
+- **Toplantı Odası Rezervasyonu:** Akademik çalışma veya grup projeleri için toplantı odalarının (Oda A, Oda B vb.) tarihe ve saat dilimine göre rezerve edilmesini sağlayan sistemdir.
+- **Etkinlik Yönetimi:** Kütüphane bünyesinde düzenlenen kitap kulüpleri, paneller ve yazar buluşmalarının listelendiği, kullanıcıların kontenjan sınırına göre katılım rezervasyonu yapabildiği ekrandır.
+- **Bildirim Merkezi (Notification Center):** Rezervasyon onayları, iptalleri, iade ve ödünç alma işlemleri için tarih, saat ve detaylı açıklama barındıran, en yeni bildirimleri en üstte gösterecek şekilde sıralanmış bildirim ekranıdır.
 
 ---
 
-## 3. Ortak Altyapı yapısı ve yapılacaklar:
+## 3. Yönetim Paneli (Admin Panel)
 
-- Proje kurulumu
-- Folder structure
-- Routing
-- Layout
-- Navbar
-- Footer
-- Sidebar
-- Theme (Dark/Light)
-- Responsive Layout
-- Protected Routes
-- 404 Page
+Yöneticiler ve kütüphaneciler için geliştirilen bu özel arayüz, platformun operasyonel kalbidir:
+
+- **AG Grid Entegrasyonu:** Kitaplar, Kullanıcılar, Rezervasyonlar, Ödünç Alınanlar, Masalar/Odalar ve Etkinlikler gibi yoğun veri tabloları AG Grid kütüphanesiyle listelenir. Bu sayede tüm kolonlarda anında arama, sıralama ve sayfalama yapılır.
+- **Onay & İptal Mekanizmaları:** Kullanıcılardan gelen kitap rezervasyon talepleri tek tıkla onaylanabilir veya reddedilebilir. Onaylanan rezervasyonlar sistem tarafından otomatik olarak aktif ödünç kaydına dönüştürülür.
+- **Ceza Yönetimi:** İade süresini geçiren öğrencilerin biriken cezaları yönetici paneli üzerinden incelenebilir ve tahsilat durumunda sıfırlanabilir.
+- **Envanter ve Etkinlik Girişi:** Yeni kitap tanımlama, mevcut masaların durumunu güncelleme veya yeni kütüphane etkinlikleri oluşturma işlemleri doğrudan bu panelden gerçekleştirilir.
 
 ---
 
-## 4. Global State Yönetimi (Redux Toolkit):
+## 4. Teknik Altyapı ve Teknoloji Yığını
 
-### authSlice
+Uygulamamız, modülerlik ve ölçeklenebilirlik ilkelerine bağlı kalınarak şu teknolojilerle geliştirilmiştir:
 
-### userSlice
-
-### bookSlice
-
-### reservationSlice
-
-### favoriteSlice
-
-### notificationSlice
-
-### dashboardSlice
-
-### adminSlice
-
-### themeSlice
-
-### searchSlice
+- **Ön Yüz (Frontend):**
+  - **React 19 & Vite:** Bileşen bazlı geliştirme ve hızlı sıcak yükleme (Hot Module Replacement) desteği.
+  - **Redux Toolkit:** Uygulama genelinde ortak kullanılan kullanıcı kimlik doğrulaması (`authSlice`), kitap envanteri (`bookSlice`), çalışma alanı/rezervasyonlar (`reservationSlice`), bildirim ve toast mesajları (`uiSlice`) ile kullanıcı cezalarının/ödünçlerinin (`userSlice`) durum yönetimini üstlenir.
+  - **React Router DOM:** Sayfa geçişlerini yenilenmeden tamamlayan yönlendirme mekanizması.
+  - **Vanilla CSS:** "Midnight & Ember" tasarım yönergelerine uygun olarak yazılmış, karanlık mod odaklı, yumuşak geçişli gölgeler (ambient glows), responsive grid yerleşimleri ve modern cam moru/canlı turuncu görsel dille harmanlanmış özelleştirilmiş stil kütüphanesi.
+  - **AG Grid React:** Yönetici panellerinde kullanılan performanslı veri grid bileşeni.
+- **Mock Veritabanı ve Sunucu:**
+  - **json-server:** Projenin tüm veri yapısını (books, users, reservations, borrowedBooks, notifications, events, studyDesks, meetingRooms) saklayan ve REST API standartlarında çalışmasını sağlayan simüle edilmiş JSON sunucusu.
 
 ---
 
-## 6. AI Agent Geliştirme Sırası ve Talimatları (Library System – Fetch + Redux Architecture)
+## 5. Mühendislik ve Mimari Yaklaşımlar
 
-AI Agent (Antigravity) bu projede sadece frontend altyapısını hazır hale getirmekten sorumludur.
+Geliştirme sürecinde karşılaşılan teknik zorluklar ve uygulanan gelişmiş çözümler şunlardır:
 
-Amaç:
+### A. Yazma Yarışı Önleme (LowDB Write Collision Prevention)
 
-- Proje çalışır durumda olacak
-- JSON server entegre olacak
-- Routing + layout + Redux hazır olacak
-- Feature development diğer ekip üyelerine bırakılacak
-- API katmanı Redux üzerinden yönetilecek (fetch + thunk)
+`json-server` (alt yapısında `lowdb` kullanan) hızlı art arda gelen HTTP POST/PATCH isteklerinde dosya yazma işlemini tamamlayamadan yeni bir istek aldığında veri kaybı yaşayabilmektedir. Bu çakışmayı engellemek amacıyla; rezervasyon onayı, kitap ödünç alma ve iade etme gibi zincirleme yazma işlemlerinin arasına asenkron **150ms gecikme (delay)** entegre edilmiştir. Bu sayede her bir veri yazma işleminin diske güvenli bir şekilde işlenmesi garanti altına alınmıştır.
 
----
+### B. Çift Yönlü Redux Store Senkronizasyonu (Cross-Slice ExtraReducers)
 
-## ⚠️ MEVCUT DURUM
+Yönetici panelinden bir kitap rezervasyonu onaylandığında, `reservationSlice` içindeki `updateReservationStatus` thunk'ı tetiklenir. Bu thunk hem rezervasyon durumunu günceller hem de veritabanında yeni bir ödünç kaydı (`borrowLog`) oluşturur.
+`userSlice` altındaki kullanıcı ödünç listesinin sayfayı yenilemeden güncellenebilmesi için, `userSlice`'ta `extraReducers` kullanılarak `updateReservationStatus.fulfilled` eylemi dinlenmiş ve oluşturulan ödünç kaydı doğrudan kullanıcının yerel Redux durumuna enjekte edilmiştir.
 
-- React/Vite (veya framework) hazır
-- Tüm bağımlılıklar zaten kurulu
-- `db.json` proje kökünde mevcut
-- Backend yerine `json-server` kullanılıyor
-- API çağrıları **sadece fetch + Redux thunk** ile yapılacak
+### C. Gelişmiş Bildirim Formatı ve Sıralama
 
----
-
-## 1. Adım: Basit Klasör Yapısını Kur
-
-```
-src/
-  components/
-  pages/
-  layouts/
-  store/
-  hooks/
-  utils/
-  assets/
-```
-
----
-
-## 2. Adım: Router Setup
-
-### Public Routes:
-
-- `/`
-- `/login`
-- `/register`
-- `/books`
-- `/book/:id`
-- `/about`
-- `/contact`
-
-### Private Routes:
-
-- `/dashboard`
-- `/profile`
-- `/reservations`
-- `/favorites`
-- `/borrowed`
-- `/admin`
-
----
-
-## 3. Adım: Redux Store Yapısı (CORE)
-
-`store/` içinde:
-
-```
-store/
-  index.js
-  authSlice.js
-  bookSlice.js
-  userSlice.js
-  reservationSlice.js
-  uiSlice.js
-```
-
----
-
-## 4. Adım: FETCH + createAsyncThunk KURALI
-
-### ⚠️ KURAL:
-
-- API çağrısı sadece Redux içinde yapılır
-- Component içinde fetch yasaktır
-
----
-
-### Örnek Book Slice:
-
-```js
-export const fetchBooks = createAsyncThunk("books/fetchBooks", async () => {
-  const res = await fetch("http://localhost:5000/books");
-  return res.json();
-});
-```
-
----
-
-## 5. Adım: API Endpoint Standartları
-
-JSON Server endpointleri:
-
-- `/books`
-- `/users`
-- `/reservations`
-- `/borrowedBooks`
-- `/authors`
-- `/categories`
-- `/events`
-- `/studyDesks`
-- `/notifications`
-
----
-
-## 6. Adım: Layout Sistemi
-
-```
-layouts/
-  MainLayout.jsx
-  AuthLayout.jsx
-  DashboardLayout.jsx
-```
-
-İçerik:
-
-- Navbar
-- Sidebar
-- Footer
-
----
-
-## 7. Adım: Pages Yapısı
-
-### Public Pages:
-
-- Home
-- Login
-- Register
-- Books
-- BookDetail
-- About
-- Contact
-
-### Private Pages:
-
-- Dashboard
-- Profile
-- Reservations
-- Favorites
-- BorrowedBooks
-- Admin
-
----
-
-## 8. Adım: Components (UI Layer)
-
-```
-components/
-  Navbar
-  Sidebar
-  Button
-  Input
-  Modal
-  Card
-  BookCard
-  Loader
-  Toast
-  EmptyState
-```
-
----
-
-## 9. Adım: Utils & Hooks
-
-### utils/
-
-- formatDate
-- statusMapper
-- calculatePenalty
-
-### hooks/
-
-- useAuth
-- useSelector wrappers (optional)
-- useDispatch wrappers (optional)
-
----
-
-## 10. Adım: Redux Data Flow KURALI
-
-### Data flow:
-
-```
-UI Component
-   ↓
-dispatch(action)
-   ↓
-createAsyncThunk
-   ↓
-fetch API
-   ↓
-json-server
-   ↓
-store update
-   ↓
-UI re-render
-```
-
----
-
-## 🎯 FINAL GOAL
-
-Bu setup tamamlandığında:
-
-✔ Proje çalışır durumda  
-✔ JSON server bağlı  
-✔ Redux store hazır  
-✔ Fetch-only API layer  
-✔ Layout sistemi kurulmuş  
-✔ Routing hazır  
-✔ Sayfalar boş ama erişilebilir  
-✔ Component sistemi hazır
-
----
-
-## ❌ YASAKLAR
-
-- Axios kullanılmayacak
-- services/ layer kullanılmayacak
-- Component içinde fetch yazılmayacak
-- Business logic UI içinde olmayacak
-- Feature-based structure kullanılmayacak
-
----
-
-## ✅ SONUÇ
-
-Diğer ekip üyeleri:
-
-- Redux üzerinden veri çekebilmeli
-- Hazır page’lere direkt girebilmeli
-- UI geliştirmeye hemen başlayabilmeli
-- API ile uğraşmamalı
+Tüm kullanıcı bildirimleri; işlemin gerçekleştiği tarih, saat ve etkilenen kaynak ismi (kitap adı, masa numarası veya oda ismi) ile zenginleştirilerek `[GG.AA.YYYY SA:DK]` formatında oluşturulur. Bildirimler listelenirken tarih ve veritabanı eklenme sırasına göre en yeni bildirim en üstte görünecek şekilde azalan düzende (descending) sıralanmaktadır.

@@ -35,6 +35,8 @@ import ReservationsPage from './pages/ReservationsPage';
 import FavoritesPage from './pages/FavoritesPage';
 import BorrowedBooksPage from './pages/BorrowedBooksPage';
 import AdminPage from './pages/AdminPage';
+import HistoryPage from './pages/HistoryPage';
+import FAQPage from './pages/FAQPage';
 
 // Toast Notifications Container
 import ToastContainer from './components/Toast';
@@ -95,6 +97,7 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPage />} />
           <Route path="/digital-library" element={<DigitalLibraryPage />} />
+          <Route path="/faq" element={<FAQPage />} />
         </Route>
 
         <Route path="/events" element={<EventsRoute />} />
@@ -130,6 +133,7 @@ function App() {
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/borrowed" element={<BorrowedBooksPage />} />
+          <Route path="/history" element={<HistoryPage />} />
 
           {/* Admin specific route */}
           <Route path="/admin" element={

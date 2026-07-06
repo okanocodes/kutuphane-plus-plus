@@ -129,6 +129,58 @@ export const deleteBook = createAsyncThunk(
   }
 );
 
+// Thunks to create new Author, Category, Publisher dynamically from inline inputs
+export const addAuthor = createAsyncThunk(
+  'books/addAuthor',
+  async (name, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${BASE_URL}/authors`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      if (!res.ok) throw new Error('Yazar eklenemedi.');
+      return await res.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addCategory = createAsyncThunk(
+  'books/addCategory',
+  async (name, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${BASE_URL}/categories`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      if (!res.ok) throw new Error('Kategori eklenemedi.');
+      return await res.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addPublisher = createAsyncThunk(
+  'books/addPublisher',
+  async (name, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`${BASE_URL}/publishers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+      if (!res.ok) throw new Error('Yayınevi eklenemedi.');
+      return await res.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = {
   books: [],
   selectedBook: null,
@@ -207,6 +259,18 @@ const bookSlice = createSlice({
       // deleteBook
       .addCase(deleteBook.fulfilled, (state, action) => {
         state.books = state.books.filter(b => b.id !== action.payload);
+      })
+      // addAuthor
+      .addCase(addAuthor.fulfilled, (state, action) => {
+        state.authors.push(action.payload);
+      })
+      // addCategory
+      .addCase(addCategory.fulfilled, (state, action) => {
+        state.categories.push(action.payload);
+      })
+      // addPublisher
+      .addCase(addPublisher.fulfilled, (state, action) => {
+        state.publishers.push(action.payload);
       });
   },
 });

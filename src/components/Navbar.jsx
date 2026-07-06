@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import useAuth from '../hooks/useAuth';
-import { fetchNotifications } from '../store/uiSlice';
+import { fetchNotifications, addToast } from '../store/uiSlice';
+import { logoutUser } from '../store/authSlice';
 
 export const NavBar = () => {
     const navigate = useNavigate();
@@ -18,6 +19,12 @@ export const NavBar = () => {
             dispatch(fetchNotifications(user.id));
         }
     }, [isAuthenticated, user?.id, dispatch]);
+
+    const handleLogout = () => {
+        dispatch(logoutUser());
+        dispatch(addToast({ message: 'Başarıyla çıkış yapıldı.', type: 'success' }));
+        navigate('/');
+    };
 
     // Check if path starts with /admin or /dashboard or /profile or /reservations or /favorites or /borrowed
     // If it does, we show the Navbar, but we can change links if needed
@@ -58,13 +65,22 @@ export const NavBar = () => {
                         )}
                     </div>
                     {isAuthenticated ? (
-                        <button
-                            onClick={() => navigate('/dashboard')}
-                            className="bg-vivid-purple text-white font-bold px-lg py-sm rounded-lg hover:opacity-90 transition-all scale-95 active:opacity-80 font-label-sm text-label-sm flex items-center gap-2"
-                        >
-                            <span className="material-symbols-outlined text-sm">account_circle</span>
-                            <span>{user.name}</span>
-                        </button>
+                        <div className="flex items-center gap-sm">
+                            <button
+                                onClick={() => navigate('/dashboard')}
+                                className="bg-vivid-purple text-white font-bold px-lg py-sm rounded-lg hover:opacity-90 transition-all scale-95 active:opacity-80 font-label-sm text-label-sm flex items-center gap-2"
+                            >
+                                <span className="material-symbols-outlined text-sm">account_circle</span>
+                                <span>{user.name}</span>
+                            </button>
+                            <button
+                                onClick={handleLogout}
+                                className="bg-surface-container-highest text-on-surface border border-outline hover:text-error hover:bg-error/10 font-bold px-md py-sm rounded-lg transition-all scale-95 active:opacity-80 font-label-sm text-label-sm flex items-center gap-1 cursor-pointer"
+                            >
+                                <span className="material-symbols-outlined text-sm text-error">logout</span>
+                                <span className="hidden sm:inline">Çıkış Yap</span>
+                            </button>
+                        </div>
                     ) : (
                         <button
                             onClick={() => navigate('/login')}
