@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchReviews, addReview } from '../../store/favoriteSlice';
-import { addToast } from '../../store/uiSlice';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReviews, addReview } from "../../store/favoriteSlice";
+import { addToast } from "../../store/uiSlice";
+import { Link } from "react-router-dom";
 
 export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
   const dispatch = useDispatch();
   const { reviews, reviewsStatus } = useSelector((state) => state.favorites);
 
   const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -20,11 +21,18 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isAuthenticated) {
-      dispatch(addToast({ message: 'Yorum yapmak için giriş yapmalısınız.', type: 'warning' }));
+      dispatch(
+        addToast({
+          message: "Yorum yapmak için giriş yapmalısınız.",
+          type: "warning",
+        }),
+      );
       return;
     }
     if (!comment.trim()) {
-      dispatch(addToast({ message: 'Lütfen bir yorum yazın.', type: 'warning' }));
+      dispatch(
+        addToast({ message: "Lütfen bir yorum yazın.", type: "warning" }),
+      );
       return;
     }
 
@@ -33,22 +41,29 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
       const reviewData = {
         bookId,
         userId: user.id,
-        userName: user.name || 'Bilinmeyen Kullanıcı',
+        userName: user.name || "Bilinmeyen Kullanıcı",
         rating,
         comment: comment.trim(),
       };
       const result = await dispatch(addReview(reviewData));
       if (addReview.fulfilled.match(result)) {
-        dispatch(addToast({ message: 'Yorumunuz başarıyla eklendi.', type: 'success' }));
-        setComment('');
+        dispatch(
+          addToast({
+            message: "Yorumunuz başarıyla eklendi.",
+            type: "success",
+          }),
+        );
+        setComment("");
         setRating(5);
         // Refresh reviews list
         dispatch(fetchReviews(bookId));
       } else {
-        dispatch(addToast({ message: 'Yorum eklenirken hata oluştu.', type: 'error' }));
+        dispatch(
+          addToast({ message: "Yorum eklenirken hata oluştu.", type: "error" }),
+        );
       }
     } catch {
-      dispatch(addToast({ message: 'İşlem başarısız.', type: 'error' }));
+      dispatch(addToast({ message: "İşlem başarısız.", type: "error" }));
     } finally {
       setIsSubmitting(false);
     }
@@ -56,13 +71,17 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
 
   // Calculate statistics
   const totalReviews = reviews.length;
-  const averageRating = totalReviews > 0
-    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
-    : '0.0';
+  const averageRating =
+    totalReviews > 0
+      ? (reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(
+          1,
+        )
+      : "0.0";
 
-  const renderStars = (score, clickable = false, size = 'sm') => {
+  const renderStars = (score, clickable = false, size = "sm") => {
     const stars = [];
-    const sizeClass = size === 'lg' ? 'text-2xl' : size === 'md' ? 'text-lg' : 'text-sm';
+    const sizeClass =
+      size === "lg" ? "text-2xl" : size === "md" ? "text-lg" : "text-sm";
     for (let i = 1; i <= 5; i++) {
       const filled = i <= score;
       if (clickable) {
@@ -72,28 +91,30 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
             type="button"
             onClick={() => setRating(i)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
                 setRating(i);
               }
             }}
             aria-label={`${i} yıldız`}
-            className={`material-symbols-outlined cursor-pointer select-none transition-colors bg-transparent border-0 p-0 ${filled ? 'text-accent-gold font-bold' : 'text-outline-variant'
-              } ${sizeClass}`}
+            className={`material-symbols-outlined cursor-pointer select-none transition-colors bg-transparent border-0 p-0 ${
+              filled ? "text-accent-gold font-bold" : "text-outline-variant"
+            } ${sizeClass}`}
           >
-            {filled ? 'star' : 'star_border'}
-          </button>
+            {filled ? "star" : "star_border"}
+          </button>,
         );
       } else {
         stars.push(
           <span
             key={i}
-            className={`material-symbols-outlined select-none ${filled ? 'text-accent-gold font-bold' : 'text-outline-variant'
-              } ${sizeClass}`}
+            className={`material-symbols-outlined select-none ${
+              filled ? "text-accent-gold font-bold" : "text-outline-variant"
+            } ${sizeClass}`}
             aria-hidden="true"
           >
-            {filled ? 'star' : 'star_border'}
-          </span>
+            {filled ? "star" : "star_border"}
+          </span>,
         );
       }
     }
@@ -109,8 +130,10 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
       {/* Statistics & Breakdown Summary */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-lg bg-surface-container-low p-md rounded-2xl border border-outline-variant">
         <div className="md:col-span-4 flex flex-col items-center justify-center text-center py-md border-b md:border-b-0 md:border-r border-outline-variant/30">
-          <span className="font-metadata-mono text-5xl font-bold text-on-surface leading-none">{averageRating}</span>
-          {renderStars(Math.round(parseFloat(averageRating)), false, 'lg')}
+          <span className="font-metadata-mono text-5xl font-bold text-on-surface leading-none">
+            {averageRating}
+          </span>
+          {renderStars(Math.round(parseFloat(averageRating)), false, "lg")}
           <span className="text-xs text-on-surface-variant mt-sm font-semibold">
             {totalReviews} Yorum / Puanlama
           </span>
@@ -122,15 +145,21 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
             const percent = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
             return (
               <div key={stars} className="flex items-center gap-sm text-sm">
-                <span className="w-3 text-on-surface-variant font-metadata-mono text-right">{stars}</span>
-                <span className="material-symbols-outlined text-accent-gold text-xs">star</span>
+                <span className="w-3 text-on-surface-variant font-metadata-mono text-right">
+                  {stars}
+                </span>
+                <span className="material-symbols-outlined text-accent-gold text-xs">
+                  star
+                </span>
                 <div className="flex-grow h-2 bg-surface-container-highest rounded-full overflow-hidden">
                   <div
                     className="h-full bg-accent-gold transition-all duration-500 rounded-full"
                     style={{ width: `${percent}%` }}
                   ></div>
                 </div>
-                <span className="w-8 text-on-surface-variant font-metadata-mono text-left">{count}</span>
+                <span className="w-8 text-on-surface-variant font-metadata-mono text-left">
+                  {count}
+                </span>
               </div>
             );
           })}
@@ -139,12 +168,16 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
 
       {/* Review Submission Form */}
       <div className="glass-card p-md rounded-2xl border border-outline-variant space-y-md">
-        <h3 className="font-headline-h3 text-base font-bold text-on-surface">Bu Kitaba Puan Ver ve Yorum Yap</h3>
+        <h3 className="font-headline-h3 text-base font-bold text-on-surface">
+          Bu Kitaba Puan Ver ve Yorum Yap
+        </h3>
         {isAuthenticated ? (
           <form onSubmit={handleSubmit} className="space-y-md">
             <div className="flex items-center gap-md">
-              <span className="text-sm font-medium text-on-surface-variant">Puanınız:</span>
-              {renderStars(rating, true, 'lg')}
+              <span className="text-sm font-medium text-on-surface-variant">
+                Puanınız:
+              </span>
+              {renderStars(rating, true, "lg")}
             </div>
 
             <div className="space-y-xs">
@@ -168,34 +201,51 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
           </form>
         ) : (
           <div className="bg-surface-container/50 p-md rounded-xl text-center border border-outline-variant/20">
-            <p className="text-sm text-on-surface-variant mb-md">Yorum yapmak ve puan vermek için üye girişi yapmalısınız.</p>
-            <a
-              href="/login"
+            <p className="text-sm text-on-surface-variant mb-md">
+              Yorum yapmak ve puan vermek için üye girişi yapmalısınız.
+            </p>
+            <Link
+              to="login"
               className="inline-block px-md py-2 bg-vivid-purple hover:opacity-90 text-white rounded-xl text-sm font-bold transition-all active:scale-95"
             >
               Giriş Yap
-            </a>
+            </Link>
           </div>
         )}
       </div>
 
       {/* Reviews list */}
       <div className="space-y-md">
-        <h3 className="font-headline-h3 text-base font-bold text-on-surface">Kullanıcı Yorumları ({totalReviews})</h3>
-        {reviewsStatus === 'loading' ? (
-          <p className="text-sm text-on-surface-variant">Yorumlar yükleniyor...</p>
+        <h3 className="font-headline-h3 text-base font-bold text-on-surface">
+          Kullanıcı Yorumları ({totalReviews})
+        </h3>
+        {reviewsStatus === "loading" ? (
+          <p className="text-sm text-on-surface-variant">
+            Yorumlar yükleniyor...
+          </p>
         ) : reviews.length === 0 ? (
-          <p className="text-sm text-on-surface-variant italic">Bu kitap için henüz yorum yapılmamış. İlk yorum yapan siz olun!</p>
+          <p className="text-sm text-on-surface-variant italic">
+            Bu kitap için henüz yorum yapılmamış. İlk yorum yapan siz olun!
+          </p>
         ) : (
           <div className="flex flex-col gap-sm">
             {reviews.map((rev) => (
-              <div key={rev.id} className="bg-surface-container-low border border-outline-variant p-md rounded-xl space-y-xs text-left">
+              <div
+                key={rev.id}
+                className="bg-surface-container-low border border-outline-variant p-md rounded-xl space-y-xs text-left"
+              >
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold text-sm text-on-surface">{rev.userName || `Kullanıcı #${rev.userId}`}</span>
+                  <span className="font-semibold text-sm text-on-surface">
+                    {rev.userName || `Kullanıcı #${rev.userId}`}
+                  </span>
                   {renderStars(rev.rating)}
                 </div>
-                <p className="text-xs text-on-surface-variant font-metadata-mono">K++ Okuyucu</p>
-                <p className="text-sm text-on-surface leading-relaxed pt-xs">{rev.comment}</p>
+                <p className="text-xs text-on-surface-variant font-metadata-mono">
+                  K++ Okuyucu
+                </p>
+                <p className="text-sm text-on-surface leading-relaxed pt-xs">
+                  {rev.comment}
+                </p>
               </div>
             ))}
           </div>
