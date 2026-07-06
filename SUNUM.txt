@@ -1,0 +1,85 @@
+Kütüphane Plus Plus - Grup Sunum Notları
+
+Bu sunum, 4 frontend geliştirici öğrencinin ortak çalışmasıyla hazırladığı Kütüphane Plus Plus projesini anlatmak için hazırlanmıştır.
+
+1. Giriş
+- Merhaba, bugün bir kütüphane yönetim sistemi projesini sunduk.
+- Projemiz, kullanıcıların kitap araması, rezervasyon yapması, kütüphane hizmetlerini takip etmesi ve kullanıcı deneyimini kolaylaştırması amacıyla geliştirildi.
+- Bu proje sayesinde frontend tarafında kullanıcı arayüzü, sayfa akışı, state yönetimi ve modüler yapı konularını birlikte deneyimledik.
+
+2. Projenin Amacı
+- Kütüphane hizmetlerini dijital ortamda daha erişilebilir hale getirmek.
+- Kullanıcıların kitaplara hızlı ulaşmasını sağlamak.
+- Rezervasyon, favori kitaplar, geçmiş işlemler ve kullanıcı profili gibi temel işlevleri tek ekranda sunmak.
+- Grup çalışmasıyla gerçek bir yazılım projesinde nasıl iş birliği yapıldığını göstermek.
+
+3. Kullanılan Teknolojiler
+- React ve Vite ile kullanıcı arayüzü geliştirdik.
+- React Router ile sayfa geçişlerini yönettik.
+- Redux ve slice yapısı ile state yönetimini sağladık.
+- Component-based yapıyı kullanarak tekrar kullanılabilir yapılar oluşturmaya çalıştık.
+- Axios ve API servis yapısı ile veri akışını düzenledik.
+
+4. Proje Özeti
+- Ana sayfa ve kullanıcı giriş/kayıt akışı hazırlandı.
+- Kitap arama, filtreleme, detay sayfaları ve benzer kitaplar eklendi.
+- Rezervasyon, masa/oda seçimi ve bildirim alanları oluşturuldu.
+- Kullanıcı panelinde profil, ödünç alınan kitaplar, geçmiş ve istatistikler yer aldı.
+- Proje, bir arayüz tasarımı ve kullanıcı deneyimi odaklı şekilde planlandı.
+
+5. Ekip Çalışması ve Görev Dağılımı
+- Okan: Proje mimarisi, ortak layout yapısı, routing, authentication ve global bileşenler.
+- Ayşenur: Kitap sistemi, arama ekranı, detay sayfaları, favoriler ve içerik akışı.
+- Eren: Rezervasyon sistemi, çalışma masası, etkinlikler ve bildirimler.
+- Sudenaz: Kullanıcı paneli, dashboard, geçmiş, ödünç kitaplar ve profil sayfaları.
+
+6. Kişisel Sunum Notları
+
+Okan için notlar:
+- Ben projenin temel yapısını kurdum.
+- Routing, layout, navbar, footer ve protected route yapısını oluşturdum.
+- Projenin daha düzenli ilerlemesi için ortak component yapısını hazırladım.
+- Bu sayede ekip arkadaşlarımın kendi alanlarını daha rahat geliştirmesi sağlandı.
+- En önemli öğrenimim, iyi bir altyapı kurulmadan projeyi büyütmenin zor olduğuydu.
+
+Ayşenur için notlar:
+- Ben kitap odaklı bölümü geliştirdim.
+- Kullanıcıların kitapları arayabilmesi, filtreleyebilmesi ve detay sayfasına ulaşabilmesi üzerine çalıştım.
+- Kitap kartları, arama sonuçları ve benzer kitap önerileri gibi alanlara dikkat ettim.
+- Proje içinde kullanıcı deneyimini artıracak bir akış oluşturmayı hedefledim.
+- Bu süreçte componentleri yeniden kullanmanın ne kadar önemli olduğunu gördüm.
+
+Eren için notlar:
+- Ben rezervasyon ve hizmetlerin yönetimi kısmını üstlendim.
+- Çalışma masası, rezervasyon akışı ve etkinliklerle ilgili ekranları hazırladım.
+- Kullanıcının bir hizmeti seçip takip edebilmesini sağlayan yapıyı oluşturdum.
+- Özellikle kullanıcı odaklı bir akış tasarlamaya çalıştım.
+- Bu görev sayesinde interaktif sayfalar tasarlamanın ne kadar dikkat gerektirdiğini anladım.
+
+Sudenaz için notlar:
+- Ben kullanıcı paneli ve kişisel alanları geliştirdim.
+- Dashboard, geçmiş işlemler, ödünç alınan kitaplar ve profil sayfası gibi bölümleri hazırladım.
+- Kullanıcının kendi verilerini daha düzenli ve anlaşılır bir şekilde görmesini amaçladım.
+- Bu süreçte kullanıcı dostu tasarımın önemini daha iyi kavradım.
+- Ayrıca farklı sayfalar arasında veri akışını düzgün yönetmenin önemini deneyimledim.
+
+7. Karşılaşılan Zorluklar
+- Ekip içi görev dağılımını düzenlemek zaman aldı.
+- Aynı alanlara ait sayfalar üzerinde uyum sağlamak önemliydi.
+- State yönetimi ve veri akışı bazı bölümlerde karmaşık hale geldi.
+- Responsive tasarım ve sayfa geçişleri üzerinde dikkatli çalışmak gerekti.
+
+8. Öğrendiklerimiz
+- Frontend projelerinde iş bölümü çok önemlidir.
+- Modüler yapı, geliştirmeyi daha hızlı ve düzenli hale getirir.
+- Paylaşılan componentler sayesinde tekrar eden işlerden kaçınılabilir.
+- Bir proje geliştirirken kullanıcı deneyimi her zaman ön planda olmalıdır.
+
+9. Sonuç
+- Bu proje ile birlikte bir kütüphane uygulaması için temel frontend yapısını başarıyla oluşturdum.
+- Hem teknik hem de ekip çalışması açısından önemli deneyimler kazandık.
+- Bu proje, gelecekte daha büyük ve daha profesyonel projelerde çalışmamıza katkı sağlayacaktır.
+
+10. Kapanış
+- Teşekkür ederiz.
+- Sorularınız varsa memnuniyetle cevaplarız.
