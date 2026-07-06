@@ -205,7 +205,7 @@ export const ReviewsSection = ({ bookId, user, isAuthenticated }) => {
               Yorum yapmak ve puan vermek için üye girişi yapmalısınız.
             </p>
             <Link
-              to="login"
+              to="/login"
               className="inline-block px-md py-2 bg-vivid-purple hover:opacity-90 text-white rounded-xl text-sm font-bold transition-all active:scale-95"
             >
               Giriş Yap
