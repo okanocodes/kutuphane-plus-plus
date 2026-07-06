@@ -490,9 +490,9 @@ export const AdminPage = () => {
     const data = {
       ...bookForm,
       pages: Number(bookForm.pages),
-      authorId: Number(bookForm.authorId),
-      categoryId: Number(bookForm.categoryId),
-      publisherId: Number(bookForm.publisherId),
+      authorId: bookForm.authorId,
+      categoryId: bookForm.categoryId,
+      publisherId: bookForm.publisherId,
       publishYear: bookForm.publishYear ? Number(bookForm.publishYear) : null,
       keywords: bookForm.keywords.length > 0 ? bookForm.keywords : undefined,
       description: bookForm.description || undefined,
