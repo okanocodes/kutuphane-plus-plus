@@ -160,6 +160,43 @@ const EventActionCellRenderer = (params) => {
   );
 };
 
+// Helper function to compress image before uploading
+const compressImage = (file, maxWidth = 400, maxHeight = 600, quality = 0.7) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsImage = true;
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions maintaining aspect ratio
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+};
+
 // Reusable Searchable & Addable Select Dropdown
 const SearchableAddSelect = ({ label, items, value, onChange, onAdd, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -258,7 +295,7 @@ export const AdminPage = () => {
   const [editingItem, setEditingItem] = useState(null);
 
   // Forms
-  const [bookForm, setBookForm] = useState({ title: '', isbn: '', pages: '', authorId: '', categoryId: '', publisherId: '', status: 'available', coverUrl: '', publishYear: '' });
+  const [bookForm, setBookForm] = useState({ title: '', isbn: '', pages: '', authorId: '', categoryId: '', publisherId: '', status: 'available', coverUrl: '', publishYear: '', keywords: [], description: '' });
   const [userForm, setUserForm] = useState({ name: '', role: 'student' });
   const [spaceForm, setSpaceForm] = useState({ type: 'desk', name: '', capacity: 4 });
   const [loanForm, setLoanForm] = useState({ userId: '', bookId: '' });
@@ -360,21 +397,29 @@ export const AdminPage = () => {
       categoryId: Number(bookForm.categoryId),
       publisherId: Number(bookForm.publisherId),
       publishYear: bookForm.publishYear ? Number(bookForm.publishYear) : null,
+      keywords: bookForm.keywords.length > 0 ? bookForm.keywords : undefined,
+      description: bookForm.description || undefined,
     };
 
     if (editingItem) {
       const resultAction = await dispatch(updateBook({ id: editingItem.id, bookData: data }));
       if (updateBook.fulfilled.match(resultAction)) {
         dispatch(addToast({ message: 'Kitap güncellendi.', type: 'success' }));
+        setIsBookModalOpen(false);
+        setEditingItem(null);
+      } else if (updateBook.rejected.match(resultAction)) {
+        dispatch(addToast({ message: resultAction.payload || 'Kitap güncellenirken hata oluştu.', type: 'error' }));
       }
     } else {
       const resultAction = await dispatch(addBook(data));
       if (addBook.fulfilled.match(resultAction)) {
         dispatch(addToast({ message: 'Yeni kitap başarıyla eklendi.', type: 'success' }));
+        setIsBookModalOpen(false);
+        setEditingItem(null);
+      } else if (addBook.rejected.match(resultAction)) {
+        dispatch(addToast({ message: resultAction.payload || 'Kitap eklenirken hata oluştu.', type: 'error' }));
       }
     }
-    setIsBookModalOpen(false);
-    setEditingItem(null);
   };
 
   const handleUserSubmit = async (e) => {
@@ -517,7 +562,9 @@ export const AdminPage = () => {
         publisherId: book.publisherId || '',
         status: book.status || 'available',
         coverUrl: book.coverUrl || '',
-        publishYear: book.publishYear !== undefined ? book.publishYear : ''
+        publishYear: book.publishYear !== undefined ? book.publishYear : '',
+        keywords: book.keywords || [],
+        description: book.description || ''
       });
       setIsBookModalOpen(true);
     },
@@ -685,7 +732,7 @@ export const AdminPage = () => {
 
         <div className="flex gap-sm">
           {activeTab === 'books' && (
-            <button onClick={() => { setEditingItem(null); setBookForm({ title: '', isbn: '', pages: '', authorId: '', categoryId: '', publisherId: '', status: 'available', coverUrl: '', publishYear: '' }); setIsBookModalOpen(true); }} className="px-md py-2 bg-ember-orange text-white text-xs font-bold rounded-lg hover:opacity-90 transition-all cursor-pointer shadow-glow-accent">+ Kitap</button>
+            <button onClick={() => { setEditingItem(null); setBookForm({ title: '', isbn: '', pages: '', authorId: '', categoryId: '', publisherId: '', status: 'available', coverUrl: '', publishYear: '', keywords: [], description: '' }); setIsBookModalOpen(true); }} className="px-md py-2 bg-ember-orange text-white text-xs font-bold rounded-lg hover:opacity-90 transition-all cursor-pointer shadow-glow-accent">+ Kitap</button>
           )}
           {activeTab === 'users' && (
             <button onClick={() => { setEditingItem(null); setUserForm({ name: '', role: 'student' }); setIsUserModalOpen(true); }} className="px-md py-2 bg-ember-orange text-white text-xs font-bold rounded-lg hover:opacity-90 transition-all cursor-pointer shadow-glow-accent">+ Kullanıcı</button>
@@ -1117,14 +1164,16 @@ export const AdminPage = () => {
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  onChange={(e) => {
+                  onChange={async (e) => {
                     const file = e.target.files[0];
                     if (file) {
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setBookForm({ ...bookForm, coverUrl: reader.result });
-                      };
-                      reader.readAsDataURL(file);
+                      try {
+                        const compressedImage = await compressImage(file, 400, 600, 0.7);
+                        setBookForm({ ...bookForm, coverUrl: compressedImage });
+                        dispatch(addToast({ message: 'Resim sıkıştırılarak yüklendi.', type: 'info' }));
+                      } catch {
+                        dispatch(addToast({ message: 'Resim yüklenirken hata oluştu.', type: 'error' }));
+                      }
                     }
                   }}
                 />
@@ -1176,6 +1225,64 @@ export const AdminPage = () => {
             onAdd={handleAddPublisher}
             placeholder="Yayınevi Seçiniz"
           />
+
+          <div>
+            <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Kitap Özeti (İsteğe Bağlı)</label>
+            <textarea
+              className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none font-body-md resize-none"
+              rows="4"
+              placeholder="Kitabın kısa özeti yazınız..."
+              value={bookForm.description}
+              onChange={(e) => setBookForm({ ...bookForm, description: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Anahtar Kelimeler (İsteğe Bağlı)</label>
+            <div className="space-y-2">
+              <div className="flex gap-sm">
+                <input
+                  type="text"
+                  placeholder="Yeni anahtar kelime yazıp Enter'e basınız..."
+                  className="flex-1 px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none font-body-md"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && e.target.value.trim()) {
+                      e.preventDefault();
+                      const keyword = e.target.value.trim();
+                      if (!bookForm.keywords.includes(keyword)) {
+                        setBookForm({ ...bookForm, keywords: [...bookForm.keywords, keyword] });
+                      }
+                      e.target.value = '';
+                    }
+                  }}
+                />
+              </div>
+              {bookForm.keywords.length > 0 && (
+                <div className="flex flex-wrap gap-xs">
+                  {bookForm.keywords.map((keyword) => (
+                    <div
+                      key={keyword}
+                      className="flex items-center gap-xs bg-vivid-purple/20 text-tertiary-fixed text-xs px-2.5 py-1 rounded-full border border-vivid-purple/50 font-semibold"
+                    >
+                      <span>{keyword}</span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setBookForm({
+                            ...bookForm,
+                            keywords: bookForm.keywords.filter((k) => k !== keyword),
+                          })
+                        }
+                        className="ml-xs cursor-pointer hover:text-error transition-colors text-sm font-bold"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
 
           <div className="pt-sm flex justify-end gap-sm font-body-md">
             <button type="button" onClick={() => setIsBookModalOpen(false)} className="px-md py-2 border border-outline rounded-lg text-on-surface hover:bg-surface-container-high transition-all cursor-pointer">İptal</button>
