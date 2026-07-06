@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/forms";
+@custom-variant dark (&:where(.dark, .dark *));
 
 .material-symbols-outlined {
   font-variation-settings:
@@ -11,9 +12,19 @@
 }
 .glass-panel,
 .glass-card {
-  background: rgba(31, 31, 36, 0.7);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 .glow-ember {
   box-shadow: 0 0 20px rgba(255, 93, 58, 0.2);
@@ -195,6 +206,90 @@
   --text-headline-h1--font-weight: 700;
 }
 
+:root {
+  --color-background: #f7f5fb;
+  --color-surface: #f7f5fb;
+  --color-surface-dim: #f1ebf8;
+  --color-surface-bright: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2ebf8;
+  --color-surface-container: #f4effa;
+  --color-surface-container-high: #e9def3;
+  --color-surface-container-highest: #ece4f6;
+  --color-surface-variant: #efe7f7;
+  --color-on-background: #1f172d;
+  --color-on-surface: #1f172d;
+  --color-on-surface-variant: #5a5166;
+  --color-primary: #5b21b6;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #efe4ff;
+  --color-on-primary-container: #3f2366;
+  --color-secondary: #ff5d3a;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #ffede7;
+  --color-on-secondary-container: #7a220d;
+  --color-tertiary: #7c3aed;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #efe4ff;
+  --color-on-tertiary-container: #4b2496;
+  --color-outline: #c7bfd6;
+  --color-outline-variant: #dfd5e8;
+  --color-error: #ef4444;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffe4e6;
+  --color-on-error-container: #7f1d1d;
+  --color-success: #10b981;
+  --color-ember-orange: #ff5d3a;
+  --color-vivid-purple: #5b21b6;
+  --color-accent-gold: #ffb800;
+  --color-accent-pink: #ff3d81;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(91, 33, 182, 0.14);
+  --glass-shadow: 0 10px 30px rgba(18, 19, 24, 0.08);
+}
+
+:root.dark {
+  --color-background: #121318;
+  --color-surface: #121318;
+  --color-surface-dim: #121318;
+  --color-surface-bright: #38393e;
+  --color-surface-container-lowest: #0d0e13;
+  --color-surface-container-low: #1b1b20;
+  --color-surface-container: #1f1f24;
+  --color-surface-container-high: #292a2f;
+  --color-surface-container-highest: #34343a;
+  --color-surface-variant: #34343a;
+  --color-on-background: #e3e1e8;
+  --color-on-surface: #e3e1e8;
+  --color-on-surface-variant: #cbc4ce;
+  --color-primary: #d3beeb;
+  --color-on-primary: #38294d;
+  --color-primary-container: #1a0b2e;
+  --color-on-primary-container: #88769f;
+  --color-secondary: #ffb4a4;
+  --color-on-secondary: #630e00;
+  --color-secondary-container: #aa2000;
+  --color-on-secondary-container: #ffbeaf;
+  --color-tertiary: #d3bbff;
+  --color-on-tertiary: #3f008d;
+  --color-tertiary-container: #1b0044;
+  --color-on-tertiary-container: #9261ef;
+  --color-outline: #958f98;
+  --color-outline-variant: #4a454d;
+  --color-error: #ef4444;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+  --color-success: #10b981;
+  --color-ember-orange: #ff5d3a;
+  --color-vivid-purple: #5b21b6;
+  --color-accent-gold: #ffb800;
+  --color-accent-pink: #ff3d81;
+  --glass-bg: rgba(31, 31, 36, 0.72);
+  --glass-border: rgba(74, 69, 77, 0.8);
+  --glass-shadow: none;
+}
+
 /* ==========================================
    AG Grid overrides for Midnight & Ember
    ========================================== */
@@ -210,12 +305,12 @@
   --ag-selected-row-background-color: rgba(255, 93, 58, 0.15) !important;
   --ag-font-family: "Inter", sans-serif !important;
   --ag-font-size: 14px !important;
-  
+
   /* Input & Filter Styles */
   --ag-input-background-color: #121318 !important;
   --ag-input-border-color: #4a454d !important;
   --ag-input-text-color: #e3e1e8 !important;
-  --ag-input-focus-border-color: #FF5D3A !important;
+  --ag-input-focus-border-color: #ff5d3a !important;
   --ag-card-background-color: #1f1f24 !important;
   --ag-control-panel-background-color: #1f1f24 !important;
 
@@ -284,4 +379,3 @@
 .ag-theme-custom .ag-row-hover {
   background-color: rgba(91, 33, 182, 0.2) !important;
 }
-
