@@ -468,6 +468,25 @@ export const AdminPage = () => {
   // Submit handlers
   const handleBookSubmit = async (e) => {
     e.preventDefault();
+
+    // Check for duplicate book
+    if (!editingItem) {
+      const isDuplicate = books.some(
+        (book) =>
+          book.title.toLowerCase() === bookForm.title.toLowerCase() &&
+          book.authorId.toLowerCase() === bookForm.authorId.toLowerCase(),
+      );
+      if (isDuplicate) {
+        dispatch(
+          addToast({
+            message: `Bu kitap zaten var. ISBN: ${bookForm.isbn}`,
+            type: "error",
+          }),
+        );
+        return;
+      }
+    }
+
     const data = {
       ...bookForm,
       pages: Number(bookForm.pages),
@@ -487,6 +506,10 @@ export const AdminPage = () => {
         dispatch(addToast({ message: "Kitap güncellendi.", type: "success" }));
         setIsBookModalOpen(false);
         setEditingItem(null);
+        dispatch(fetchBooks());
+        dispatch(fetchAuthors());
+        dispatch(fetchCategories());
+        dispatch(fetchPublishers());
       } else if (updateBook.rejected.match(resultAction)) {
         dispatch(
           addToast({
@@ -507,6 +530,24 @@ export const AdminPage = () => {
         );
         setIsBookModalOpen(false);
         setEditingItem(null);
+        setBookForm({
+          title: "",
+          isbn: "",
+          pages: "",
+          authorId: "",
+          categoryId: "",
+          publisherId: "",
+          status: "available",
+          coverUrl: "",
+          publishYear: "",
+          keywords: [],
+          description: "",
+        });
+        // Refresh all data to ensure new author/category/publisher are synced
+        dispatch(fetchBooks());
+        dispatch(fetchAuthors());
+        dispatch(fetchCategories());
+        dispatch(fetchPublishers());
       } else if (addBook.rejected.match(resultAction)) {
         dispatch(
           addToast({
