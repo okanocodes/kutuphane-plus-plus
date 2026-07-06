@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBorrowedBooks, fetchPenalties, updateUser } from '../store/userSlice';
 import { fetchReservations, fetchStudyDesks, fetchMeetingRooms } from '../store/reservationSlice';
 import { fetchBooks, fetchCategories } from '../store/bookSlice';
+import { fetchReadingList, removeReadingList } from '../store/favoriteSlice';
 import useAuth from '../hooks/useAuth';
+import Modal from '../components/Modal';
 import { addToast } from '../store/uiSlice';
 
 export const DashboardPage = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
+  const navigate = useNavigate();
   
   const { borrowedBooks, penalties } = useSelector((state) => state.users);
   const { reservations, studyDesks, meetingRooms } = useSelector((state) => state.reservations);
   const { books, categories } = useSelector((state) => state.books);
+  const { readingList } = useSelector((state) => state.favorites);
 
   // Target Editing state
   const [isEditingTarget, setIsEditingTarget] = useState(false);
   const [tempTarget, setTempTarget] = useState(Number(user?.readingTarget || 24));
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedRemoveId, setSelectedRemoveId] = useState(null);
+  const [selectedRemoveTitle, setSelectedRemoveTitle] = useState('');
 
   useEffect(() => {
     dispatch(fetchBorrowedBooks());
@@ -26,6 +34,7 @@ export const DashboardPage = () => {
     dispatch(fetchCategories());
     dispatch(fetchStudyDesks());
     dispatch(fetchMeetingRooms());
+    if (user?.id) dispatch(fetchReadingList(user.id));
   }, [dispatch]);
 
   useEffect(() => { document.title = 'Kütüphane++ — Panel'; }, []);
@@ -70,6 +79,15 @@ export const DashboardPage = () => {
       setIsEditingTarget(false);
     } else {
       dispatch(addToast({ message: 'Güncelleme başarısız.', type: 'error' }));
+    }
+  };
+
+  const handleRemoveReadingItem = async (id) => {
+    const result = await dispatch(removeReadingList(id));
+    if (removeReadingList.fulfilled.match(result)) {
+      dispatch(addToast({ message: 'Okuma listesinden kaldırıldı.', type: 'success' }));
+    } else {
+      dispatch(addToast({ message: result.payload || 'Kaldırma başarısız.', type: 'error' }));
     }
   };
 
@@ -385,8 +403,8 @@ export const DashboardPage = () => {
         </div>
       </div>
 
-      {/* Lists Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+      {/* Three-column summary: Active Loans / Reading List / Active Reservations */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-lg">
         {/* Active Loans list */}
         <div className="glass-card p-lg rounded-xl border border-outline-variant">
           <h2 className="font-headline-h3 text-lg font-bold mb-md text-on-surface">Aktif Ödünç Alınanlar</h2>
@@ -403,6 +421,49 @@ export const DashboardPage = () => {
                   <span className="font-metadata-mono text-[10px] bg-ember-orange/20 text-ember-orange px-2 py-0.5 rounded-full font-bold uppercase">Aktif</span>
                 </div>
               ))}
+            </div>
+          )}
+        </div>
+
+        {/* Sonra Okunacak Kitaplar */}
+        <div className="glass-card p-lg rounded-xl border border-outline-variant">
+          <h2 className="font-headline-h3 text-lg font-bold mb-md text-on-surface">Sonra Okunacak Kitaplar</h2>
+          {(!readingList || readingList.length === 0) ? (
+            <p className="font-body-md text-on-surface-variant text-sm py-sm">Okuma listenizde kitap bulunmuyor.</p>
+          ) : (
+            <div className="space-y-sm">
+              {readingList.map((item) => {
+                const book = books.find(b => String(b.id) === String(item.bookId));
+                if (!book) return null;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => navigate(`/book/${book.id}`)}
+                    className="w-full text-left flex justify-between items-center py-sm border-b border-outline-variant last:border-0 hover:bg-surface-container/40 rounded transition-colors"
+                  >
+                    <div className="flex items-center gap-sm">
+                      <span className="material-symbols-outlined text-on-surface-variant">bookmark_border</span>
+                      <span className="font-label-sm text-sm text-on-surface font-medium truncate max-w-[260px]">{book.title}</span>
+                    </div>
+                    <div className="flex items-center gap-xs">
+                      <span className="text-[10px] text-on-surface-variant">{categories.find(c => String(c.id) === String(book.categoryId))?.name || ''}</span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedRemoveId(item.id);
+                          setSelectedRemoveTitle(book.title || 'Kitap');
+                          setConfirmOpen(true);
+                        }}
+                        className="ml-2 text-error text-[11px] px-2 py-1 bg-error/10 rounded hover:bg-error/20 transition-colors"
+                        aria-label="Okuma listesinden kaldır"
+                      >
+                        Kaldır
+                      </button>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -429,6 +490,34 @@ export const DashboardPage = () => {
           )}
         </div>
       </div>
+      <Modal
+        isOpen={confirmOpen}
+        onClose={() => { setConfirmOpen(false); setSelectedRemoveId(null); setSelectedRemoveTitle(''); }}
+        title="Okuma listesinden kaldır"
+      >
+        <div className="space-y-md">
+          <p className="text-sm text-on-surface-variant">“{selectedRemoveTitle}” kitabını okuma listenizden kaldırmak istediğinize emin misiniz?</p>
+          <div className="flex justify-end gap-sm pt-sm">
+            <button
+              onClick={() => { setConfirmOpen(false); setSelectedRemoveId(null); setSelectedRemoveTitle(''); }}
+              className="px-3 py-1 bg-surface-container-high text-on-surface rounded"
+            >
+              İptal
+            </button>
+            <button
+              onClick={async () => {
+                if (selectedRemoveId) await handleRemoveReadingItem(selectedRemoveId);
+                setConfirmOpen(false);
+                setSelectedRemoveId(null);
+                setSelectedRemoveTitle('');
+              }}
+              className="px-3 py-1 bg-error text-white rounded"
+            >
+              Kaldır
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
