@@ -1,184 +1,185 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { API_BASE_URL } from "../utils/api";
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = API_BASE_URL;
 
 export const fetchBooks = createAsyncThunk(
-  'books/fetchBooks',
+  "books/fetchBooks",
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/books`);
-      if (!res.ok) throw new Error('Kitaplar yüklenemedi.');
+      if (!res.ok) throw new Error("Kitaplar yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const fetchBookById = createAsyncThunk(
-  'books/fetchBookById',
+  "books/fetchBookById",
   async (id, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/books/${id}`);
-      if (!res.ok) throw new Error('Kitap detayları yüklenemedi.');
+      if (!res.ok) throw new Error("Kitap detayları yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const fetchAuthors = createAsyncThunk(
-  'books/fetchAuthors',
+  "books/fetchAuthors",
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/authors`);
-      if (!res.ok) throw new Error('Yazarlar yüklenemedi.');
+      if (!res.ok) throw new Error("Yazarlar yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const fetchCategories = createAsyncThunk(
-  'books/fetchCategories',
+  "books/fetchCategories",
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/categories`);
-      if (!res.ok) throw new Error('Kategoriler yüklenemedi.');
+      if (!res.ok) throw new Error("Kategoriler yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const fetchPublishers = createAsyncThunk(
-  'books/fetchPublishers',
+  "books/fetchPublishers",
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/publishers`);
-      if (!res.ok) throw new Error('Yayınevleri yüklenemedi.');
+      if (!res.ok) throw new Error("Yayınevleri yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const fetchBranches = createAsyncThunk(
-  'books/fetchBranches',
+  "books/fetchBranches",
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/branches`);
-      if (!res.ok) throw new Error('Şubeler yüklenemedi.');
+      if (!res.ok) throw new Error("Şubeler yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const addBook = createAsyncThunk(
-  'books/addBook',
+  "books/addBook",
   async (bookData, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/books`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookData),
       });
-      if (!res.ok) throw new Error('Kitap eklenemedi.');
+      if (!res.ok) throw new Error("Kitap eklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const updateBook = createAsyncThunk(
-  'books/updateBook',
+  "books/updateBook",
   async ({ id, bookData }, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/books/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookData),
       });
-      if (!res.ok) throw new Error('Kitap güncellenemedi.');
+      if (!res.ok) throw new Error("Kitap güncellenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const deleteBook = createAsyncThunk(
-  'books/deleteBook',
+  "books/deleteBook",
   async (id, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/books/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
-      if (!res.ok) throw new Error('Kitap silinemedi.');
+      if (!res.ok) throw new Error("Kitap silinemedi.");
       return id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 // Thunks to create new Author, Category, Publisher dynamically from inline inputs
 export const addAuthor = createAsyncThunk(
-  'books/addAuthor',
+  "books/addAuthor",
   async (name, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/authors`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name }),
       });
-      if (!res.ok) throw new Error('Yazar eklenemedi.');
+      if (!res.ok) throw new Error("Yazar eklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const addCategory = createAsyncThunk(
-  'books/addCategory',
+  "books/addCategory",
   async (name, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/categories`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name }),
       });
-      if (!res.ok) throw new Error('Kategori eklenemedi.');
+      if (!res.ok) throw new Error("Kategori eklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const addPublisher = createAsyncThunk(
-  'books/addPublisher',
+  "books/addPublisher",
   async (name, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/publishers`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name }),
       });
-      if (!res.ok) throw new Error('Yayınevi eklenemedi.');
+      if (!res.ok) throw new Error("Yayınevi eklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 const initialState = {
@@ -188,12 +189,12 @@ const initialState = {
   categories: [],
   publishers: [],
   branches: [],
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
 };
 
 const bookSlice = createSlice({
-  name: 'books',
+  name: "books",
   initialState,
   reducers: {
     clearSelectedBook: (state) => {
@@ -204,26 +205,26 @@ const bookSlice = createSlice({
     builder
       // fetchBooks
       .addCase(fetchBooks.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchBooks.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.books = action.payload;
       })
       .addCase(fetchBooks.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       // fetchBookById
       .addCase(fetchBookById.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchBookById.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.selectedBook = action.payload;
       })
       .addCase(fetchBookById.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       // fetchAuthors
@@ -248,7 +249,7 @@ const bookSlice = createSlice({
       })
       // updateBook
       .addCase(updateBook.fulfilled, (state, action) => {
-        const index = state.books.findIndex(b => b.id === action.payload.id);
+        const index = state.books.findIndex((b) => b.id === action.payload.id);
         if (index !== -1) {
           state.books[index] = action.payload;
         }
@@ -258,7 +259,7 @@ const bookSlice = createSlice({
       })
       // deleteBook
       .addCase(deleteBook.fulfilled, (state, action) => {
-        state.books = state.books.filter(b => b.id !== action.payload);
+        state.books = state.books.filter((b) => b.id !== action.payload);
       })
       // addAuthor
       .addCase(addAuthor.fulfilled, (state, action) => {

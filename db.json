@@ -765,6 +765,13 @@
       "status": "approved",
       "date": "2026-07-06",
       "id": "RDg7S3LMrB8"
+    },
+    {
+      "userId": 5,
+      "bookId": null,
+      "status": "pending",
+      "date": "2026-07-06",
+      "id": "P3lAdXXToGI"
     }
   ],
   "borrowedBooks": [
@@ -1001,6 +1008,14 @@
       "read": false,
       "date": "2026-07-06",
       "id": "g8GvB0UzeJg"
+    },
+    {
+      "userId": 5,
+      "type": "rezervasyon",
+      "title": "[06.07.2026 06:09] \"Bilinmeyen Kitap\" Kitabı için rezervasyon talebi alındı.",
+      "read": false,
+      "date": "2026-07-06",
+      "id": "cZoHto0U9Zk"
     }
   ],
   "events": [

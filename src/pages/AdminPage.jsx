@@ -1,35 +1,36 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-  fetchBooks, 
-  addBook, 
-  deleteBook, 
-  updateBook, 
-  fetchAuthors, 
-  fetchCategories, 
+import {
+  fetchBooks,
+  addBook,
+  deleteBook,
+  updateBook,
+  fetchAuthors,
+  fetchCategories,
   fetchPublishers,
   addAuthor,
   addCategory,
   addPublisher
 } from '../store/bookSlice';
-import { 
-  fetchUsers, 
-  addUser, 
-  deleteUser, 
-  updateUser, 
+import {
+  fetchUsers,
+  addUser,
+  deleteUser,
+  updateUser,
   fetchBorrowedBooks,
   borrowBook,
   returnBook,
   fetchPenalties
 } from '../store/userSlice';
-import { 
-  fetchReservations, 
+import {
+  fetchReservations,
   updateReservationStatus,
   fetchStudyDesks,
   fetchMeetingRooms,
   fetchEvents
 } from '../store/reservationSlice';
 import { addToast } from '../store/uiSlice';
+import { API_BASE_URL } from '../utils/api';
 import Modal from '../components/Modal';
 import { AgGridReact } from 'ag-grid-react';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
@@ -47,14 +48,14 @@ const BookActionCellRenderer = (params) => {
   const data = params.data;
   return (
     <div className="flex gap-xs items-center h-full">
-      <button 
-        onClick={() => params.context.onEdit(data)} 
+      <button
+        onClick={() => params.context.onEdit(data)}
         className="px-2.5 py-1 bg-vivid-purple text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
       >
         Düzenle
       </button>
-      <button 
-        onClick={() => params.context.onDelete(data.id)} 
+      <button
+        onClick={() => params.context.onDelete(data.id)}
         className="px-2.5 py-1 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
       >
         Sil
@@ -68,14 +69,14 @@ const UserActionCellRenderer = (params) => {
   const data = params.data;
   return (
     <div className="flex gap-xs items-center h-full">
-      <button 
-        onClick={() => params.context.onEdit(data)} 
+      <button
+        onClick={() => params.context.onEdit(data)}
         className="px-2.5 py-1 bg-vivid-purple text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
       >
         Düzenle
       </button>
-      <button 
-        onClick={() => params.context.onDelete(data.id)} 
+      <button
+        onClick={() => params.context.onDelete(data.id)}
         className="px-2.5 py-1 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
       >
         Sil
@@ -87,18 +88,18 @@ const UserActionCellRenderer = (params) => {
 const ReservationActionCellRenderer = (params) => {
   if (!params.data) return null;
   const data = params.data;
-  
+
   if (data.status === 'pending') {
     return (
       <div className="flex gap-xs items-center h-full">
-        <button 
-          onClick={() => params.context.onApprove(data.id, data.bookId)} 
+        <button
+          onClick={() => params.context.onApprove(data.id, data.bookId)}
           className="px-2.5 py-1 bg-success text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
         >
           Onayla
         </button>
-        <button 
-          onClick={() => params.context.onReject(data.id, data.bookId)} 
+        <button
+          onClick={() => params.context.onReject(data.id, data.bookId)}
           className="px-2.5 py-1 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
         >
           Reddet
@@ -106,12 +107,12 @@ const ReservationActionCellRenderer = (params) => {
       </div>
     );
   }
-  
+
   if (data.status === 'approved') {
     return (
       <div className="flex gap-xs items-center h-full">
-        <button 
-          onClick={() => params.context.onReject(data.id, data.bookId)} 
+        <button
+          onClick={() => params.context.onReject(data.id, data.bookId)}
           className="px-2.5 py-1 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
         >
           İptal Et
@@ -119,7 +120,7 @@ const ReservationActionCellRenderer = (params) => {
       </div>
     );
   }
-  
+
   return <span className="text-xs text-on-surface-variant">İşlem Yapılamaz</span>;
 };
 
@@ -128,8 +129,8 @@ const LoanActionCellRenderer = (params) => {
   const data = params.data;
   return (
     <div className="flex gap-xs items-center h-full">
-      <button 
-        onClick={() => params.context.onReturn(data.id, data.bookId)} 
+      <button
+        onClick={() => params.context.onReturn(data.id, data.bookId)}
         className="px-2.5 py-1 bg-ember-orange text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
       >
         İade Al
@@ -143,14 +144,14 @@ const EventActionCellRenderer = (params) => {
   const data = params.data;
   return (
     <div className="flex gap-xs items-center h-full">
-      <button 
-        onClick={() => params.context.onEdit(data)} 
+      <button
+        onClick={() => params.context.onEdit(data)}
         className="px-2.5 py-1 bg-vivid-purple text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
       >
         Düzenle
       </button>
-      <button 
-        onClick={() => params.context.onDelete(data.id)} 
+      <button
+        onClick={() => params.context.onDelete(data.id)}
         className="px-2.5 py-1 bg-error text-white text-xs font-bold rounded hover:opacity-90 active:scale-95 transition-all cursor-pointer"
       >
         Sil
@@ -163,7 +164,7 @@ const EventActionCellRenderer = (params) => {
 const SearchableAddSelect = ({ label, items, value, onChange, onAdd, placeholder }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
-  
+
   const filtered = items.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
   const selectedItem = items.find(item => String(item.id) === String(value));
 
@@ -181,7 +182,7 @@ const SearchableAddSelect = ({ label, items, value, onChange, onAdd, placeholder
   return (
     <div className="relative space-y-1 text-left">
       <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">{label}</label>
-      <div 
+      <div
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg cursor-pointer flex justify-between items-center sm:text-sm"
       >
@@ -191,7 +192,7 @@ const SearchableAddSelect = ({ label, items, value, onChange, onAdd, placeholder
 
       {isOpen && (
         <div className="absolute z-50 w-full mt-1 bg-surface-container-high border border-outline-variant rounded-lg shadow-xl p-2 space-y-2 max-h-60 overflow-y-auto font-body-md">
-          <input 
+          <input
             type="text"
             className="w-full px-2 py-1 bg-surface-container border border-outline text-on-surface rounded text-xs focus:outline-none"
             placeholder="Ara veya ekle..."
@@ -202,7 +203,7 @@ const SearchableAddSelect = ({ label, items, value, onChange, onAdd, placeholder
           />
           <div className="space-y-1">
             {filtered.map(item => (
-              <div 
+              <div
                 key={item.id}
                 onClick={() => {
                   onChange(item.id);
@@ -234,13 +235,13 @@ const SearchableAddSelect = ({ label, items, value, onChange, onAdd, placeholder
 
 export const AdminPage = () => {
   const dispatch = useDispatch();
-  
+
   const { books, authors, categories, publishers } = useSelector((state) => state.books);
   const { users, borrowedBooks, penalties } = useSelector((state) => state.users);
   const { reservations, studyDesks, meetingRooms, events } = useSelector((state) => state.reservations);
 
-  const [activeTab, setActiveTab] = useState('dashboard'); 
-  
+  const [activeTab, setActiveTab] = useState('dashboard');
+
   // Search inputs
   const [bookSearch, setBookSearch] = useState('');
   const [userSearch, setUserSearch] = useState('');
@@ -253,7 +254,7 @@ export const AdminPage = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isSpaceModalOpen, setIsSpaceModalOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-  
+
   const [editingItem, setEditingItem] = useState(null);
 
   // Forms
@@ -278,9 +279,9 @@ export const AdminPage = () => {
     dispatch(fetchStudyDesks());
     dispatch(fetchMeetingRooms());
     dispatch(fetchEvents());
-    
+
     // Fetch global settings
-    fetch('http://localhost:5000/settings')
+    fetch(`${API_BASE_URL}/settings`)
       .then(res => res.json())
       .then(data => { if (data) setSettings(data); });
   }, [dispatch]);
@@ -333,7 +334,7 @@ export const AdminPage = () => {
     for (let i = 0; i < 9; i++) {
       isbn += Math.floor(Math.random() * 10);
     }
-    
+
     // Calculate ISBN-13 checksum digit
     let sum = 0;
     for (let i = 0; i < 12; i++) {
@@ -342,7 +343,7 @@ export const AdminPage = () => {
     }
     const checksum = (10 - (sum % 10)) % 10;
     const finalISBN = isbn + checksum;
-    
+
     setBookForm(prev => ({ ...prev, isbn: finalISBN }));
     dispatch(addToast({ message: 'ISBN-13 başarıyla üretildi.', type: 'info' }));
   };
@@ -394,16 +395,16 @@ export const AdminPage = () => {
   const handleSpaceSubmit = async (e) => {
     e.preventDefault();
     const endpoint = spaceForm.type === 'desk' ? 'studyDesks' : 'meetingRooms';
-    const body = spaceForm.type === 'desk' 
+    const body = spaceForm.type === 'desk'
       ? { status: 'available' }
       : { name: spaceForm.name, capacity: Number(spaceForm.capacity), status: 'available', userId: null, date: null, timeSlot: null };
 
-    await fetch(`http://localhost:5000/${endpoint}`, {
+    await fetch(`${API_BASE_URL}/${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
-    
+
     dispatch(addToast({ message: 'Çalışma alanı başarıyla tanımlandı.', type: 'success' }));
     setIsSpaceModalOpen(false);
     dispatch(fetchStudyDesks());
@@ -423,21 +424,21 @@ export const AdminPage = () => {
     };
 
     if (editingItem) {
-      await fetch(`http://localhost:5000/events/${editingItem.id}`, {
+      await fetch(`${API_BASE_URL}/events/${editingItem.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
       dispatch(addToast({ message: 'Etkinlik güncellendi.', type: 'success' }));
     } else {
-      await fetch('http://localhost:5000/events', {
+      await fetch(`${API_BASE_URL}/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
       dispatch(addToast({ message: 'Yeni etkinlik oluşturuldu.', type: 'success' }));
     }
-    
+
     setIsEventModalOpen(false);
     setEditingItem(null);
     dispatch(fetchEvents());
@@ -445,7 +446,7 @@ export const AdminPage = () => {
 
   const handleEventDelete = async (id) => {
     if (window.confirm('Bu etkinliği silmek istediğinize emin misiniz?')) {
-      await fetch(`http://localhost:5000/events/${id}`, {
+      await fetch(`${API_BASE_URL}/events/${id}`, {
         method: 'DELETE'
       });
       dispatch(addToast({ message: 'Etkinlik silindi.', type: 'success' }));
@@ -493,7 +494,7 @@ export const AdminPage = () => {
 
   const handleSettingsSave = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:5000/settings', {
+    await fetch(`${API_BASE_URL}/settings`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings)
@@ -578,16 +579,20 @@ export const AdminPage = () => {
     { field: 'id', headerName: 'ID', width: 80, maxWidth: 100, flex: 0 },
     { field: 'title', headerName: 'Kitap Adı', minWidth: 200 },
     { field: 'isbn', headerName: 'ISBN', minWidth: 140 },
-    { field: 'authorId', headerName: 'Yazar', minWidth: 150,
+    {
+      field: 'authorId', headerName: 'Yazar', minWidth: 150,
       valueGetter: (params) => params.data ? getAuthorName(params.data.authorId) : ''
     },
-    { field: 'categoryId', headerName: 'Kategori', minWidth: 130,
+    {
+      field: 'categoryId', headerName: 'Kategori', minWidth: 130,
       valueGetter: (params) => params.data ? getCategoryName(params.data.categoryId) : ''
     },
-    { field: 'publisherId', headerName: 'Yayınevi', minWidth: 130,
+    {
+      field: 'publisherId', headerName: 'Yayınevi', minWidth: 130,
       valueGetter: (params) => params.data ? getPublisherName(params.data.publisherId) : ''
     },
-    { field: 'status', headerName: 'Durum', minWidth: 120,
+    {
+      field: 'status', headerName: 'Durum', minWidth: 120,
       cellRenderer: (params) => (
         <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase ${params.value === 'available' ? 'bg-success/20 text-success' : 'bg-error/20 text-error'}`}>
           {params.value === 'available' ? 'Müsait' : params.value === 'borrowed' ? 'Ödünçte' : params.value}
@@ -600,7 +605,8 @@ export const AdminPage = () => {
   const userColDefs = useMemo(() => [
     { field: 'id', headerName: 'ID', width: 80, maxWidth: 100, flex: 0 },
     { field: 'name', headerName: 'Kullanıcı Adı', minWidth: 200 },
-    { field: 'role', headerName: 'Rol', minWidth: 140,
+    {
+      field: 'role', headerName: 'Rol', minWidth: 140,
       cellRenderer: (params) => <span className="capitalize font-semibold text-accent-gold">{params.value}</span>
     },
     { headerName: 'İşlemler', minWidth: 170, cellRenderer: UserActionCellRenderer, sortable: false, filter: false }
@@ -608,14 +614,17 @@ export const AdminPage = () => {
 
   const reservationColDefs = useMemo(() => [
     { field: 'id', headerName: 'ID', width: 80, maxWidth: 100, flex: 0 },
-    { field: 'userId', headerName: 'Kullanıcı', minWidth: 180,
+    {
+      field: 'userId', headerName: 'Kullanıcı', minWidth: 180,
       valueGetter: (params) => params.data ? getUserName(params.data.userId) : ''
     },
-    { field: 'bookId', headerName: 'Kitap', minWidth: 200,
+    {
+      field: 'bookId', headerName: 'Kitap', minWidth: 200,
       valueGetter: (params) => params.data ? getBookTitle(params.data.bookId) : ''
     },
     { field: 'date', headerName: 'Tarih', minWidth: 130 },
-    { field: 'status', headerName: 'Durum', minWidth: 130,
+    {
+      field: 'status', headerName: 'Durum', minWidth: 130,
       cellRenderer: (params) => (
         <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase ${params.value === 'approved' ? 'bg-success/20 text-success' : 'bg-accent-gold/20 text-accent-gold'}`}>
           {params.value}
@@ -631,14 +640,17 @@ export const AdminPage = () => {
 
   const loanColDefs = useMemo(() => [
     { field: 'id', headerName: 'ID', width: 80, maxWidth: 100, flex: 0 },
-    { field: 'userId', headerName: 'Kullanıcı', minWidth: 180,
+    {
+      field: 'userId', headerName: 'Kullanıcı', minWidth: 180,
       valueGetter: (params) => params.data ? getUserName(params.data.userId) : ''
     },
-    { field: 'bookId', headerName: 'Kitap', minWidth: 200,
+    {
+      field: 'bookId', headerName: 'Kitap', minWidth: 200,
       valueGetter: (params) => params.data ? getBookTitle(params.data.bookId) : ''
     },
     { field: 'borrowDate', headerName: 'Ödünç Tarihi', minWidth: 130 },
-    { field: 'status', headerName: 'Durum', minWidth: 130,
+    {
+      field: 'status', headerName: 'Durum', minWidth: 130,
       cellRenderer: (params) => (
         <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase ${params.value === 'overdue' ? 'bg-error/20 text-error' : 'bg-success/20 text-success'}`}>
           {params.value}
@@ -654,7 +666,8 @@ export const AdminPage = () => {
     { field: 'date', headerName: 'Tarih', minWidth: 120 },
     { field: 'time', headerName: 'Saat', minWidth: 90 },
     { field: 'location', headerName: 'Konum', minWidth: 150 },
-    { field: 'capacity', headerName: 'Kontenjan', minWidth: 120,
+    {
+      field: 'capacity', headerName: 'Kontenjan', minWidth: 120,
       valueGetter: (params) => params.data ? `${params.data.reservedSeats || 0} / ${params.data.capacity || 0}` : ''
     },
     { headerName: 'İşlemler', minWidth: 170, cellRenderer: EventActionCellRenderer, sortable: false, filter: false }
@@ -696,12 +709,11 @@ export const AdminPage = () => {
           { id: 'spaces', label: 'Çalışma Alanları', icon: 'table_restaurant' },
           { id: 'settings', label: 'Sistem Ayarları', icon: 'settings' }
         ].map((tab) => (
-          <button 
+          <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-sm py-2 border-b-2 font-bold transition-all flex items-center gap-xs cursor-pointer ${
-              activeTab === tab.id ? 'border-ember-orange text-ember-orange' : 'border-transparent text-on-surface-variant hover:text-on-surface'
-            }`}
+            className={`px-sm py-2 border-b-2 font-bold transition-all flex items-center gap-xs cursor-pointer ${activeTab === tab.id ? 'border-ember-orange text-ember-orange' : 'border-transparent text-on-surface-variant hover:text-on-surface'
+              }`}
           >
             <span className="material-symbols-outlined text-sm">{tab.icon}</span>
             {tab.label}
@@ -787,9 +799,9 @@ export const AdminPage = () => {
         <div className="space-y-sm">
           <div className="flex justify-between items-center font-body-md">
             <span className="text-xs text-on-surface-variant font-medium">Toplam {books.length} kayıt listeleniyor</span>
-            <input 
-              type="text" 
-              placeholder="Tabloda hızlı ara..." 
+            <input
+              type="text"
+              placeholder="Tabloda hızlı ara..."
               className="px-3 py-1.5 bg-surface-container border border-outline text-on-surface rounded-lg text-xs focus:outline-none w-72"
               value={bookSearch}
               onChange={(e) => setBookSearch(e.target.value)}
@@ -815,9 +827,9 @@ export const AdminPage = () => {
         <div className="space-y-sm">
           <div className="flex justify-between items-center font-body-md">
             <span className="text-xs text-on-surface-variant font-medium">Toplam {users.length} üye listeleniyor</span>
-            <input 
-              type="text" 
-              placeholder="Tabloda hızlı ara..." 
+            <input
+              type="text"
+              placeholder="Tabloda hızlı ara..."
               className="px-3 py-1.5 bg-surface-container border border-outline text-on-surface rounded-lg text-xs focus:outline-none w-72"
               value={userSearch}
               onChange={(e) => setUserSearch(e.target.value)}
@@ -843,9 +855,9 @@ export const AdminPage = () => {
         <div className="space-y-sm">
           <div className="flex justify-between items-center font-body-md">
             <span className="text-xs text-on-surface-variant font-medium">Toplam {reservations.length} talep listeleniyor</span>
-            <input 
-              type="text" 
-              placeholder="Tabloda hızlı ara..." 
+            <input
+              type="text"
+              placeholder="Tabloda hızlı ara..."
               className="px-3 py-1.5 bg-surface-container border border-outline text-on-surface rounded-lg text-xs focus:outline-none w-72"
               value={reservationSearch}
               onChange={(e) => setReservationSearch(e.target.value)}
@@ -874,7 +886,7 @@ export const AdminPage = () => {
             <form onSubmit={handleIssueLoan} className="space-y-md">
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Üye Seçin</label>
-                <select 
+                <select
                   required
                   value={loanForm.userId}
                   onChange={(e) => setLoanForm({ ...loanForm, userId: e.target.value })}
@@ -887,7 +899,7 @@ export const AdminPage = () => {
 
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Kitap Seçin (Müsait Olanlar)</label>
-                <select 
+                <select
                   required
                   value={loanForm.bookId}
                   onChange={(e) => setLoanForm({ ...loanForm, bookId: e.target.value })}
@@ -907,9 +919,9 @@ export const AdminPage = () => {
           <div className="lg:col-span-2 space-y-sm">
             <div className="flex justify-between items-center font-body-md">
               <span className="text-xs text-on-surface-variant font-medium">Toplam {activeBorrowedList.length} aktif kayıt</span>
-              <input 
-                type="text" 
-                placeholder="Tabloda hızlı ara..." 
+              <input
+                type="text"
+                placeholder="Tabloda hızlı ara..."
                 className="px-3 py-1.5 bg-surface-container border border-outline text-on-surface rounded-lg text-xs focus:outline-none w-72"
                 value={loanSearch}
                 onChange={(e) => setLoanSearch(e.target.value)}
@@ -936,9 +948,9 @@ export const AdminPage = () => {
         <div className="space-y-sm">
           <div className="flex justify-between items-center font-body-md">
             <span className="text-xs text-on-surface-variant font-medium">Toplam {events.length} etkinlik listeleniyor</span>
-            <input 
-              type="text" 
-              placeholder="Tabloda hızlı ara..." 
+            <input
+              type="text"
+              placeholder="Tabloda hızlı ara..."
               className="px-3 py-1.5 bg-surface-container border border-outline text-on-surface rounded-lg text-xs focus:outline-none w-72"
               value={eventSearch}
               onChange={(e) => setEventSearch(e.target.value)}
@@ -999,7 +1011,7 @@ export const AdminPage = () => {
             <div className="grid grid-cols-2 gap-sm">
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Maksimum Ödünç Süresi (Gün)</label>
-                <input 
+                <input
                   type="number"
                   className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
                   value={settings.maxLoanDays}
@@ -1008,7 +1020,7 @@ export const AdminPage = () => {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Maksimum Kitap Limeti</label>
-                <input 
+                <input
                   type="number"
                   className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
                   value={settings.maxBooks}
@@ -1023,31 +1035,31 @@ export const AdminPage = () => {
       )}
 
       {/* Book Form Modal with Searchable & Addable selects */}
-      <Modal 
-        isOpen={isBookModalOpen} 
-        onClose={() => setIsBookModalOpen(false)} 
+      <Modal
+        isOpen={isBookModalOpen}
+        onClose={() => setIsBookModalOpen(false)}
         title={editingItem ? 'Kitap Güncelle' : 'Yeni Kitap Ekle'}
       >
         <form onSubmit={handleBookSubmit} className="space-y-md text-sm">
           <div>
             <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Kitap Adı</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none font-body-md"
               value={bookForm.title}
-              onChange={(e) => setBookForm({...bookForm, title: e.target.value})}
+              onChange={(e) => setBookForm({ ...bookForm, title: e.target.value })}
             />
           </div>
           <div>
             <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">ISBN</label>
             <div className="flex gap-sm">
-              <input 
-                type="text" 
+              <input
+                type="text"
                 required
                 className="flex-1 px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none font-body-md"
                 value={bookForm.isbn}
-                onChange={(e) => setBookForm({...bookForm, isbn: e.target.value})}
+                onChange={(e) => setBookForm({ ...bookForm, isbn: e.target.value })}
               />
               <button
                 type="button"
@@ -1062,21 +1074,21 @@ export const AdminPage = () => {
           <div className="grid grid-cols-3 gap-sm font-body-md">
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Sayfa</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 required
                 className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
                 value={bookForm.pages}
-                onChange={(e) => setBookForm({...bookForm, pages: e.target.value})}
+                onChange={(e) => setBookForm({ ...bookForm, pages: e.target.value })}
               />
             </div>
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Yayın Yılı</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
                 value={bookForm.publishYear}
-                onChange={(e) => setBookForm({...bookForm, publishYear: e.target.value})}
+                onChange={(e) => setBookForm({ ...bookForm, publishYear: e.target.value })}
               />
             </div>
             <div>
@@ -1084,7 +1096,7 @@ export const AdminPage = () => {
               <select
                 className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
                 value={bookForm.status}
-                onChange={(e) => setBookForm({...bookForm, status: e.target.value})}
+                onChange={(e) => setBookForm({ ...bookForm, status: e.target.value })}
               >
                 <option value="available">Müsait</option>
                 <option value="borrowed">Ödünçte</option>
@@ -1099,10 +1111,10 @@ export const AdminPage = () => {
               <label className="flex items-center gap-xs cursor-pointer px-3 py-1.5 border border-outline hover:bg-surface-container-high transition-all text-xs font-bold rounded-lg text-on-surface">
                 <span className="material-symbols-outlined text-sm">cloud_upload</span>
                 Dosyadan Yükle
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="hidden" 
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
                   onChange={(e) => {
                     const file = e.target.files[0];
                     if (file) {
@@ -1112,31 +1124,31 @@ export const AdminPage = () => {
                       };
                       reader.readAsDataURL(file);
                     }
-                  }} 
+                  }}
                 />
               </label>
               <span className="text-xs text-on-surface-variant">veya URL adresi girin:</span>
             </div>
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="https://resim-adresi.com/kapak.jpg"
               className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none font-body-md"
               value={bookForm.coverUrl || ''}
-              onChange={(e) => setBookForm({...bookForm, coverUrl: e.target.value})}
+              onChange={(e) => setBookForm({ ...bookForm, coverUrl: e.target.value })}
             />
             {bookForm.coverUrl && (
               <div className="mt-2 flex justify-center">
-                <img 
-                  src={bookForm.coverUrl} 
-                  alt="Önizleme" 
+                <img
+                  src={bookForm.coverUrl}
+                  alt="Önizleme"
                   className="max-h-24 object-contain rounded-lg border border-outline-variant"
                 />
               </div>
             )}
           </div>
-          
+
           {/* Custom Searchable Selects */}
-          <SearchableAddSelect 
+          <SearchableAddSelect
             label="Yazar"
             items={authors}
             value={bookForm.authorId}
@@ -1145,7 +1157,7 @@ export const AdminPage = () => {
             placeholder="Yazar Seçiniz"
           />
 
-          <SearchableAddSelect 
+          <SearchableAddSelect
             label="Kategori"
             items={categories}
             value={bookForm.categoryId}
@@ -1154,7 +1166,7 @@ export const AdminPage = () => {
             placeholder="Kategori Seçiniz"
           />
 
-          <SearchableAddSelect 
+          <SearchableAddSelect
             label="Yayınevi"
             items={publishers}
             value={bookForm.publisherId}
@@ -1179,12 +1191,12 @@ export const AdminPage = () => {
         <form onSubmit={handleUserSubmit} className="space-y-md text-sm">
           <div>
             <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Kullanıcı Adı</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none font-body-md"
               value={userForm.name}
-              onChange={(e) => setUserForm({...userForm, name: e.target.value})}
+              onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
             />
           </div>
           <div>
@@ -1192,7 +1204,7 @@ export const AdminPage = () => {
             <select
               className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
               value={userForm.role}
-              onChange={(e) => setUserForm({...userForm, role: e.target.value})}
+              onChange={(e) => setUserForm({ ...userForm, role: e.target.value })}
             >
               <option value="student">Öğrenci</option>
               <option value="academic">Akademisyen</option>
@@ -1229,8 +1241,8 @@ export const AdminPage = () => {
             <>
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Oda Adı</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   required
                   className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg"
                   value={spaceForm.name}
@@ -1239,8 +1251,8 @@ export const AdminPage = () => {
               </div>
               <div>
                 <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Kapasite</label>
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   required
                   className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg"
                   value={spaceForm.capacity}
@@ -1265,54 +1277,54 @@ export const AdminPage = () => {
         <form onSubmit={handleEventSubmit} className="space-y-md text-sm">
           <div>
             <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Etkinlik Adı</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none font-body-md"
               value={eventForm.title}
-              onChange={(e) => setEventForm({...eventForm, title: e.target.value})}
+              onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })}
             />
           </div>
           <div className="grid grid-cols-2 gap-sm">
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Tarih</label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 required
                 className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
                 value={eventForm.date}
-                onChange={(e) => setEventForm({...eventForm, date: e.target.value})}
+                onChange={(e) => setEventForm({ ...eventForm, date: e.target.value })}
               />
             </div>
             <div>
               <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Saat</label>
-              <input 
-                type="time" 
+              <input
+                type="time"
                 required
                 className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
                 value={eventForm.time}
-                onChange={(e) => setEventForm({...eventForm, time: e.target.value})}
+                onChange={(e) => setEventForm({ ...eventForm, time: e.target.value })}
               />
             </div>
           </div>
           <div>
             <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Konum</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
               value={eventForm.location}
-              onChange={(e) => setEventForm({...eventForm, location: e.target.value})}
+              onChange={(e) => setEventForm({ ...eventForm, location: e.target.value })}
             />
           </div>
           <div>
             <label className="block text-xs font-semibold text-on-surface-variant mb-1 uppercase">Maksimum Kontenjan</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               required
               className="w-full px-3 py-2 border border-outline bg-surface-container text-on-surface rounded-lg focus:outline-none"
               value={eventForm.capacity}
-              onChange={(e) => setEventForm({...eventForm, capacity: e.target.value})}
+              onChange={(e) => setEventForm({ ...eventForm, capacity: e.target.value })}
             />
           </div>
           <div className="pt-sm flex justify-end gap-sm font-body-md">

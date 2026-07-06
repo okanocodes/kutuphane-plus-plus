@@ -1,117 +1,127 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { API_BASE_URL } from "../utils/api";
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = API_BASE_URL;
 
 export const fetchFavorites = createAsyncThunk(
-  'favorites/fetchFavorites',
+  "favorites/fetchFavorites",
   async (userId, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/favorites?userId=${userId}`);
-      if (!res.ok) throw new Error('Favoriler yüklenemedi.');
+      if (!res.ok) throw new Error("Favoriler yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const addFavorite = createAsyncThunk(
-  'favorites/addFavorite',
+  "favorites/addFavorite",
   async ({ userId, bookId }, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/favorites`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: Number(userId), bookId: Number(bookId) }),
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: Number(userId),
+          bookId: Number(bookId),
+        }),
       });
-      if (!res.ok) throw new Error('Favorilere eklenemedi.');
+      if (!res.ok) throw new Error("Favorilere eklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const removeFavorite = createAsyncThunk(
-  'favorites/removeFavorite',
+  "favorites/removeFavorite",
   async (id, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/favorites/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
-      if (!res.ok) throw new Error('Favorilerden kaldırılamadı.');
+      if (!res.ok) throw new Error("Favorilerden kaldırılamadı.");
       return id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const fetchReadingList = createAsyncThunk(
-  'favorites/fetchReadingList',
+  "favorites/fetchReadingList",
   async (userId, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/readingList?userId=${userId}`);
-      if (!res.ok) throw new Error('Okuma listesi yüklenemedi.');
+      if (!res.ok) throw new Error("Okuma listesi yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const addReadingList = createAsyncThunk(
-  'favorites/addReadingList',
+  "favorites/addReadingList",
   async ({ userId, bookId }, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/readingList`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: Number(userId), bookId: Number(bookId) }),
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: Number(userId),
+          bookId: Number(bookId),
+        }),
       });
-      if (!res.ok) throw new Error('Okuma listesine eklenemedi.');
+      if (!res.ok) throw new Error("Okuma listesine eklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const removeReadingList = createAsyncThunk(
-  'favorites/removeReadingList',
+  "favorites/removeReadingList",
   async (id, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/readingList/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
-      if (!res.ok) throw new Error('Okuma listesinden kaldırılamadı.');
+      if (!res.ok) throw new Error("Okuma listesinden kaldırılamadı.");
       return id;
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const fetchReviews = createAsyncThunk(
-  'favorites/fetchReviews',
+  "favorites/fetchReviews",
   async (bookId, { rejectWithValue }) => {
     try {
       const res = await fetch(`${BASE_URL}/reviews?bookId=${bookId}`);
-      if (!res.ok) throw new Error('Yorumlar yüklenemedi.');
+      if (!res.ok) throw new Error("Yorumlar yüklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const addReview = createAsyncThunk(
-  'favorites/addReview',
-  async ({ bookId, userId, userName, rating, comment }, { rejectWithValue }) => {
+  "favorites/addReview",
+  async (
+    { bookId, userId, userName, rating, comment },
+    { rejectWithValue },
+  ) => {
     try {
       const res = await fetch(`${BASE_URL}/reviews`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bookId: Number(bookId),
           userId: Number(userId),
@@ -120,51 +130,53 @@ export const addReview = createAsyncThunk(
           comment,
         }),
       });
-      if (!res.ok) throw new Error('Yorum eklenemedi.');
+      if (!res.ok) throw new Error("Yorum eklenemedi.");
       return await res.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 const initialState = {
   favorites: [],
   readingList: [],
   reviews: [],
-  status: 'idle',
-  reviewsStatus: 'idle',
+  status: "idle",
+  reviewsStatus: "idle",
   error: null,
 };
 
 const favoriteSlice = createSlice({
-  name: 'favorites',
+  name: "favorites",
   initialState,
   reducers: {
     clearReviews: (state) => {
       state.reviews = [];
-      state.reviewsStatus = 'idle';
-    }
+      state.reviewsStatus = "idle";
+    },
   },
   extraReducers: (builder) => {
     builder
       // Favorites
       .addCase(fetchFavorites.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.favorites = action.payload;
       })
       .addCase(fetchFavorites.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.payload;
       })
       .addCase(addFavorite.fulfilled, (state, action) => {
         state.favorites.push(action.payload);
       })
       .addCase(removeFavorite.fulfilled, (state, action) => {
-        state.favorites = state.favorites.filter((fav) => fav.id !== action.payload);
+        state.favorites = state.favorites.filter(
+          (fav) => fav.id !== action.payload,
+        );
       })
 
       // Reading List
@@ -175,19 +187,21 @@ const favoriteSlice = createSlice({
         state.readingList.push(action.payload);
       })
       .addCase(removeReadingList.fulfilled, (state, action) => {
-        state.readingList = state.readingList.filter((item) => item.id !== action.payload);
+        state.readingList = state.readingList.filter(
+          (item) => item.id !== action.payload,
+        );
       })
 
       // Reviews
       .addCase(fetchReviews.pending, (state) => {
-        state.reviewsStatus = 'loading';
+        state.reviewsStatus = "loading";
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
-        state.reviewsStatus = 'succeeded';
+        state.reviewsStatus = "succeeded";
         state.reviews = action.payload;
       })
       .addCase(fetchReviews.rejected, (state) => {
-        state.reviewsStatus = 'failed';
+        state.reviewsStatus = "failed";
       })
       .addCase(addReview.fulfilled, (state, action) => {
         state.reviews.push(action.payload);
